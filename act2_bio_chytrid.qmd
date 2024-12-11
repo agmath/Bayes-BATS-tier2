@@ -3,6 +3,7 @@ title: "Bayesian Boundaries: Investigating Credible Intervals"
 subtitle: "(Biology; *Chytrid Fungus in Frogs*)"
 format: html
 theme: flatly
+draft: true
 toc: true
 date: "12/2/2024"
 date-modified: today
@@ -54,7 +55,11 @@ new_pos <- 102
 This activity is a sample of our second activity (*Bayesian Boundaries: Exploring Credible Intervals*) with a biology context laid over the framework. This sample has been constructed with coauthor Dr. Katie Duryea, a member of the Biology faculty at Southern New Hampshire University. This sample activity provides an example of what versions of this activity from other domains/contexts may look like.
 :::
 
+::::{.panel-tabset}
+
 ## Goals and Objectives
+
+### Goals and Objectives
 
 **Statistics Goals:** The statistics-focused goals of this activity are as follows:
 
@@ -75,23 +80,25 @@ This activity is a sample of our second activity (*Bayesian Boundaries: Explorin
 
 **Biology Objectives:** <font color="purple">I'll work with Katie to add drafts of these objectives.</font>
 
-## Background Information
+## Pre-Reading
+
+### Background Information
 
 The following sections provide the statistical and contextual background for this activity.
 
-### Data Analysis and Bayesian Thinking
+#### Data Analysis and Bayesian Thinking
 
-There are many statistical tools which can be used to investigate population parameters. As we mentioned in [our first activity](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1.html), these tools fall into three broad categories:
+There are many statistical tools which can be used to investigate population parameters. As we mentioned in [our first activity](https://agmath.github.io/Bayes-BATS-tier2/act1_bio_chytrid_v2.html), these tools fall into three broad categories:
 
 + Classical/Frequentist methods 
 + Simulation-based methods
 + Bayesian methods
 
-This series of activities focuses on Bayesian methods. In this second activity, we engage in extracting and interpreting a *credible interval* from a *posterior* distribution. We’ll briefly review how to obtain the *posterior* distribution from the *prior* and observed data, but check back on [our first activity](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1.html) for full details.
+This series of activities focuses on Bayesian methods. In this second activity, we engage in extracting and interpreting a *credible interval* from a *posterior* distribution. We’ll briefly review how to obtain the *posterior* distribution from the *prior* and observed data, but check back on [our first activity](https://agmath.github.io/Bayes-BATS-tier2/act1_bio_chytrid_v2.html) for full details.
 
-### About Chytrid
+#### About Chytrid
 
-Chytrid fungus is an infectious fungal disease that can be fatal to amphibians and has caused some species to become extinct. Check out this video from Chris Egnoto to learn more about this threat to amphibian life.
+As a reminder, Chytrid fungus is an infectious fungal disease that can be fatal to amphibians and has caused some species to become extinct. Check out this video from Chris Egnoto to learn more about this threat to amphibian life.
 
 <center>
 
@@ -99,17 +106,33 @@ Chytrid fungus is an infectious fungal disease that can be fatal to amphibians a
 
 </center>
 
-### Purpose
+#### Purpose
 
 Building on concepts from the first activity, we'll continue to estimate the proportion of frogs in southern New Hampshire which are impacted by chytrid fungus by extracting and interpreting a *credible interval* from the *posterior distribution*.
 
-## Reminder About Prior and Posterior Distributions
+### Reminder About Prior and Posterior Distributions
 
 In Bayesian inference, a *prior distribution* represents initial beliefs about a population parameter. This allows for prior knowledge or experiences (and uncertainties) to inform conclusions without solely relying on new data. The *posterior distribution* is then obtained by updating the *prior* with observed data by using a version of Bayes' Rule:
 
 $$\mathbb{P}\left[\text{parameter value} \mid \text{data}\right] = \frac{\mathbb{P}\left[\text{data} \mid \text{parameter value}\right]\cdot \mathbb{P}\left[\text{parameter value}\right]}{\mathbb{P}\left[\text{data}\right]}$$
 
-In [Activity 1](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1.html), we manually updated the prior, applying this relationship step-by-step via code, which provided transparency into the Bayesian updating process.
+In [Activity 1](https://agmath.github.io/Bayes-BATS-tier2/act1_bio_chytrid.html), we manually updated the prior, applying this relationship step-by-step via code, which provided transparency into the Bayesian updating process.
+
+## Activity
+
+We'll start with a reminder of where our pre-reading left off before moving on to learn about convenient functionality, how that functionality can help us obtain *credible intervals*, and how we can interpret and draw insights from those intervals.
+
+### Purpose
+
+Building on concepts from the first activity, we'll continue to estimate the proportion of frogs in southern New Hampshire which are impacted by chytrid fungus by extracting and interpreting a *credible interval* from the *posterior distribution*.
+
+### Reminder About Prior and Posterior Distributions
+
+In Bayesian inference, a *prior distribution* represents initial beliefs about a population parameter. This allows for prior knowledge or experiences (and uncertainties) to inform conclusions without solely relying on new data. The *posterior distribution* is then obtained by updating the *prior* with observed data by using a version of Bayes' Rule:
+
+$$\mathbb{P}\left[\text{parameter value} \mid \text{data}\right] = \frac{\mathbb{P}\left[\text{data} \mid \text{parameter value}\right]\cdot \mathbb{P}\left[\text{parameter value}\right]}{\mathbb{P}\left[\text{data}\right]}$$
+
+In [Activity 1](https://agmath.github.io/Bayes-BATS-tier2/act1_bio_chytrid.html), we manually updated the prior, applying this relationship step-by-step via code, which provided transparency into the Bayesian updating process.
 
 ### Convenient Functionality from `{bayesrules}`
 
@@ -184,7 +207,7 @@ While we are transitioning to the more "black box" functionality in this activit
 Take this opportunity to discuss what is happening "behind the scenes" when the `plot_beta_binomial()` function is run.
 :::
 
-## Parameter Estimation with Intervals
+### Parameter Estimation with Intervals
 
 Through the main section of this activity, you'll explore the use of *credible intervals* (CIs), the Bayesian analog to the Frequentist's *confidence interval*. A key advantage of credible intervals is that they offer a much more intuitive interpretation. For example, with a 95% credible interval, we claim there is a 95% probability that the population parameter lies within the interval bounds.
 
@@ -228,7 +251,7 @@ ii) Numerically, what insights can we draw from the summary statistics we've obt
 
 Notice that this new data updates our prior beliefs about the population proportion of frogs infected with chytrid fungus. The posterior distribution now represents our updated "world-view" after seeing new evidence.
 
-### Credible Intervals
+#### Credible Intervals
 
 If you’ve taken a traditional (Frequentist) statistics course, you might be familiar with *confidence intervals*. These intervals aim to capture a population parameter with a prescribed level of certainty. In practice, however, interpreting these intervals can be tricky. Confidence intervals are based on a hypothetical scenario in which we take many random samples and build intervals from each; the expectation is that, over many intervals, a certain proportion (like 95% for a 95% confidence interval) would contain the true parameter.
 
@@ -286,7 +309,7 @@ i) Compare your 90% and 95% credible intervals. Why does the 95% credible interv
 ii) What do we gain by using a wider interval? Are there practical contexts in which you might prefer a narrower (e.g., 90%) credible interval over a wider one, or vice versa?
 :::
 
-## Summary
+### Summary
 
 In this notebook we,
 
@@ -304,6 +327,8 @@ i) **Your current coursework:** How might credible intervals support your analys
 ii) **Personal interests:** Are there topics or hobbies where interval estimates could clarify uncertainty?
 iii) **Professional projects:** Think about how credible intervals might apply in work settings where you estimate uncertain quantities.
 :::
+
+::::
 
 ## References
 

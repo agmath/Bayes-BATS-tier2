@@ -1,0 +1,65 @@
+---
+title: "Introductory Bayes In Context"
+draft: true
+format: 
+  pdf: default
+date: today
+date-format: long
+theme: flatly
+toc: false
+---
+
+## October 2024 Progress Report
+
+This is a formal progress report on the *Introductory Bayes in Context* project submitted by Adam Gilbert and Laura Lambert as part of Tier 2 of the Bayes-BATS workshop. This document outlines what we set out to accomplish in September 2024, where we stand on those tasks, and what our priorities for October 2024 will be.
+
+### Progress Update
+
+In September, Adam and Laura set out to complete the following major tasks associated with our *Introductory Bayes in Context* project.
+
+1. Outline skeletons for each of our three planned, underlying activities.
+2. Begin construction of a shareable draft *proof of concept*, that can be used to discuss the project with potential collaborators.
+3. Engage in preliminary discussions with discipline-specific faculty who are potential partners.
+
+We are pleased to report that we are "on-track" with all of these items.
+
+#### Activity Skeletons
+
+We have constructed outlines for each of the three activities that we had initially envisioned. We've also begun thinking about a fourth activity (addressing modeling) as a result of some of our discussions with potential collaborators.
+
+You can [see the progress we've made on these outlines here](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeOverview.html). Aside from developing an outline for the new fourth activity, the only aspect of this goal we still need to complete is to formalize the Bayesian Thinking objectives associated with each activity.
+
+#### Proof of Concept
+
+We have constructed a working *proof of concept* that includes two versions of our first activity (*From the Prior to the Posterior*). We have two versions of this activity -- [one without context](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1.html) and [another with a sample context from biology](https://agmath.github.io/Bayes-BATS-tier2/act1_bio_chytrid.html). 
+
+We've structured the context-free version in a way that we hope makes it clear to a collaborator which aspects should be updated to overlay their discipline-specific context over our context-free framework. We've asked Dr. Katie Duryea (Biology, SNHU) to review that context-free document and to provide feedback on its clarity and ease of use. We'll use her feedback to update our context-free version of this first activity and to inform the development of context-free versions for future activities.
+
+#### Preliminary Discussions with Discipline-Specific Faculty
+
+We've begun discussions with several faculty members at our home institutions and some former colleagues who have moved on to other institutions. While our conversations are ongoing, the current status of these conversations is described below.
+
++ **Katie Duryea (Biology at SNHU)** -- Katie has offered to be a test-case, previewing our materials before we share them with other collaborators. She is helping us fine-tune and clarify our context-free activities. Katie is also planning to develop a strand of these activities applied to one of her current research projects on rates of Chytrid Fungus Infection in Frogs. She is planning to pilot these activities in a Junior/Senior-level course on *Biostatistics and Bioinformatics* during the Spring 2025 semester.
++ **Ann Nordmeyer (Psychology at UVM)** -- Ann is interested in our project and has expressed interest in developing a strand of these activities for students in a *Statistics and Introductory Psychology* at the University of Vermont. Ann's timeline is likely a bit longer -- perhaps engaging in some development during Summer 2025.
++ **Vince Corbo (Psychology and Neuroscience at SNHU)** -- Vince and Adam have had a brief preliminary discussion, but he has expressed some intrigue and would like to learn more about this project.
++ **Ehren Moler (Environmental Science at JMU)** -- interested in developing a hierarchical modeling activity for use in their course.  He has multiple nested datasets on topics such as myco-biome data, common garden tree data, and Navajo nation data looking at pinion pine sustainability.  He would like to invorporate this activity in a upper-level Environmental Science course he will be teaching Fall 2025.
+
+#### Future Considerations
+
+One topic that has come up in discussions involves individuals who encounter these activities 'in the wild' - outside of direct collaboration with Adam or Laura - and wish to overlay their own context.  We wish for these context-free activities to be as user-friendly as possible, and for lack of familiarity with the R programming language not to be a barrier to use.  We recognize that for individuals with limited or no programming experience, even editing a .qmd file to overlay their own context may seem intimidating or beyond their capabilities.
+
+We are currently considering what steps we might take to allow these activities to be as accessible as possible to future users, even those who have no experience with R.  This may look like an extensive README, a short instructional video, or other such guide.  Further conversation with collaborators will also help guide these considerations.  
+
+### October Goals
+
+Our primary goals for October are to
+
+1. Finish formalizing the *Bayesian Thinking* objectives associated with each of our activities and add them to the skeleton document.
+2. After receiving feedback from Katie on the usability of the context-free version of our first activity, we'll make any necessary changes to that document and begin work on the context-free version of our second activity.
+3. We'll provide Katie with her own branch in our GitHub repository. This branch will be dedicated to the Chytrid Fungus context from biology. We'll work with Katie as she navigates updating and finalizing the Chytrid Fungus version of our first activity. Along the way, we'll take lessons learned from ours and Katie's experience to help inform our future collaborations with other in-discipline partners.
+
+## Funding 
+
+The BATS program is supported by the [NSF IUSE: EHR program](https://www.nsf.gov/pubs/2021/nsf21579/nsf21579.htm) with award numbers 2215879, 2215920, and 2215709
+
+

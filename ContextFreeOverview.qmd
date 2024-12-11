@@ -1,0 +1,65 @@
+---
+title: "Proposed Activity Outlines"
+format: 
+  html: default
+  pdf: default
+theme: flatly
+toc: true
+date: today
+date-format: long
+author: 
+  - name: "Adam Gilbert"
+    affiliations: 
+      - name: "Southern New Hampshire University"
+  - name: "Laura Lambert"
+    affiliations: 
+      - name: "James Madison University"
+---
+
+## About
+
+This document contains high-level draft outlines of the Bayesian concepts introduced and explored during each of our three initial classroom activities. The outlines here are for the *context-free* skeletons that will serve as the underlying framework that the discipline-specific activities will be built on top of.
+
+## Activity 1: From the Prior to the Posterior
+
+This activity introduces learners to the notion of the *prior distribution* and the *posterior distribution*. We expect that this may be the learners' first exposure to Bayesian methods, so the following concepts will be introduced and explained.
+
++ The *prior distribution*
++ The *posterior distribution*
++ The *likelihood function*
++ How the *posterior* distribution is obtained by multiplying the *prior* distribution by the *likelihood*
+
+Beyond the initial exposure to the topics/concepts above, learners investigate three major questions in this activity.
+
+1. How can the choice of *prior* influence the resulting *posterior* distribution?
+2. How can the amount of data collected influence the resulting *posterior* distribution?
+3. How do the choice of *prior* distribution and the *observed data* interact to influence the resulting *posterior* distribution?
+
+**Bayesian Thinking Objectives:** Upon completion of the activity, learners should be able to:
+
+1. Explain the concept of a *prior distribution* and its significance in Bayesian analysis, highlighting how it reflects initial beliefs before considering the observed data.
+2. Explain the role of a *posterior distribution* in Bayesian analysis, and articulate how it results from the combination of the prior distribution and the observed data.
+3. Demonstrate how to adjust the strength of a beta-prior, and analyze how varying the strength of the prior influences the posterior distribution.
+4. Evaluate how the quantity of observed data impacts the posterior distribution, and explain how more or less data modifies the influence of the prior.
+5. Analyze how the interplay between prior strength and data quantity shapes the posterior distribution, focusing on how these elements jointly determine the final Bayesian update.
+
+## Activity 2: Estimating a Parameter with Credible Intervals
+
+In this activity, we review the ideas from our first activity. Essential topics are the *prior* distribution and the *posterior* distribution. After a brief review, students are exposed to the notion of the *credible interval*. 
+
+The main questions students will explore in this activity are:
+
+1. What effect does the desired containment probability have on the bounds for the credible interval?
+2. Is the credible interval symmetric about a point estimate?
+3. Must the credible interval contain the point estimate obtained from sample data?
+
+## Activity 3: Comparing Two Populations with Tests of Hypotheses
+
+In this activity, we will use Bayesian methods to compare the means of two different populations (similar data situation to the frequentist Independent samples t-test).  Concepts such as the *prior* and the *posterior* distributions will be briefly reviewed, as well as *credible intervals*.  The focus of this activity will be on how to determine if two populations are different or not, and what pieces of evidence should be examined when drawing conclusions.
+
+The main questions students will explore in this activity are:
+
+1.  What pieces of evidence should we use to check for convergence?
+2.  How would we use *posterior probability* to examine if there is a difference in the means of two populations? 
+3.  How do we use the credibility interval to determine if there is a difference in means?
+

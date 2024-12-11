@@ -1,0 +1,31 @@
+## Part 1: Thought process
+
+  - Wanted to create activities that could be used by a variety of other colleagues
+  - Allow for course-specific context to be incorporated easily into the activity
+  - Encourage collaboration with other disciplines
+  - Extend reach of Bayesian thinking from just Adam and Laura
+  - Activities intended to complement existing course materials
+  - Activities not to take up more than one standard class period
+  - Use webR to allow running of code in a web environment 
+    - Students don't have to have R downloaded, install any packages, or write any code
+
+## Part 2: Context-free scaffolds
+
+  - Progressing from simple bayesian concepts (prior/posterior) to making inferences
+  - Bayesian concepts are included in every activity, with just a bit of background
+  - Indicators for collaborators or future users to insert their course-specific context
+  - As move through activities, rely more on software and less on "messy" math behind it
+  - Two sets of objectives included: bayesian objectives and potential course-level objectives that the activity might map to
+  
+
+## Part 3: Context-overlay
+
+  - Chytrid fungus (biology)
+  - Adam worked with a colleague in biology department to help develop the context to overlay the activity
+  - Will be piloted next spring
+  - Example of how context can be overlaid on an activity
+
+## Part 4: Future plans
+
+  - Work with other faculty to develop more contextual overlays
+  - Laura will be working with an environmental colleague to create a hierarchical modeling activity

@@ -1,0 +1,97 @@
+---
+title: "Introductory Bayes In Context"
+draft: true
+format: 
+  html: default
+  pdf: default
+date: "August 21, 2024"
+date-modified: today
+date-format: long
+theme: flatly
+toc: true
+---
+
+:::{.callout-note}
+
+This is a homepage for *Introductory Bayes in Context* [placeholder title], a project to bring foundational components of Bayesian thinking and analysis to undergraduate students within their home disciplines. This project is being led by Adam Gilbert (Southern New Hampshire University) and Laura Lambert (James Madison University), and it is mentored by Jingchen (Monika) Hu (Vassar College). We are part of the Bayes-BATS initiative, sponsored by the [NSF IUSE: EHR program](https://www.nsf.gov/pubs/2021/nsf21579/nsf21579.htm) with award numbers 2215879, 2215920, and 2215709. 
+
+:::
+
+## About
+
+The goal of *Introductory Bayes in Context* is to provide discipline-specific activities covering foundational Bayesian topics. These topics include (i) the notion of (and relationship between) the *prior* and *posterior*, (ii) extracting and interpreting *credible intervals* from a posterior distribution, and (iii) Bayesian approaches to hypothesis tests comparing two populations. We will develop a basic framework for each of three activities corresponding to these listed topics and then partner with faculty from different disciplines to overlay a relevant and meaningful context onto that frame.
+
+## Why?
+
+We believe there are multiple benefits associated with the dispersion of these activities.
+
+1. Meeting students within their home disciplines ensures that they easily see why Bayesian thinking matters to *them*.
+2. Developing these activities within discipline-specific contexts encourages adoption because instructors don't need to *sacrifice a class meeting* in order to include them -- these activities can be a vehicle for discussing (and interacting with!) an already planned topic.
+3. Since these activities will be written with no background assumed, they have the potential to make Bayesian methods more widely known among faculty and researchers across different fields.
+
+## What Adopters Will Need
+
+We want to reach as wide an audience as possible with these activities. For these reasons, no specialised hardware or software will be required. All activities will be freely-available via a web browser. The activities will be written using `{webR}`, which allows anyone to execute R code on a webpage. No prior exposure (at all) to R will be required or assumed to engage with these activities; instead, a willingness to experiment with making changes is all that is necessary. 
+
+## Complete and Near-Complete Resources
+
+We have several resources that are either complete or very near completion, and we'd like to share them with you! Links to those resources appear below -- please let us know if you have any questions, comments, or other general feedback. We look forward to hearing from you!
+
++ **Activity Series Vision and Outlines** -- We've created an [outline of our vision for this activity series](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeOverview.html), along with activity objectives. 
++ **Activity I, *From the Prior to the Posterior*** -- We have completed our [context-free activity outline](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1_v2.html) as well as a draft of a completed [version of this activity within a biology context](https://agmath.github.io/Bayes-BATS-tier2/act1_bio_chytrid_v2.html).
++ **Activity II, *Bayesian Boundaries: Investigating Credible Intervals*** -- We have completed a [context-free activity outline](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity2_v2.html) as well as a draft of a completed [version of this activity within a biology context](https://agmath.github.io/Bayes-BATS-tier2/act2_bio_chytrid_v2.html).
++ **Activity III, Bayesian Data Analysis*** -- We are working on this activity but are having difficulty running `Stan` from within the `{webr}` context. For now, here is [the current draft of the context-free version](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity3.html).
+
+## Draft Timeline
+
+The following is a preliminary timeline for discussion purposes only. We will update this timeline once we have settled on scope, deliverables, and an estimated launch date.
+
+**September 2024:** The following items will be completed by the end of September.
+
++ Outline skeletons for each of the three underlying activities
+
+  + Activity objectives associated with *Bayesian thinking*
+  + Outline of the basic analysis
+  + Identification of the major tasks and exercises embedded within the activity
+
++ Begin construction of a shareable draft *proof of concept*, including versions with and without discipline-specific context overlay, that can be used to discuss the project with potential in-discipline collaborators.
+
++ Engage in Preliminary discussions with discipline-specific faculty as potential partners
+
+  + We expect that this objective will be ongoing
+  
+**October 2024:** By the end of October, we hope to have the following completed.
+
++ Draft context-free versions of at least the first two activities (*Prior to Posterior* and *Extracting and Interpreting Credible Intervals*)
++ Begin discussions with potential collaborators across different domain disciplines
++ A completed version of the *Prior to Posterior* activity within the *Chytrid Fungus* context, which will serve as an example for other domain-specific versions of all three activities
+
+**November 2024:** By the end of November, we hope to have the following items.
+
++ Finalized context-free drafts of all three of the activities
++ Drafts of the first activity in-context across the disciplines in which we have collaborators
+
+  + Including discipline-specific objectives for the activity
++ Begin drafts of additional activities within our existing collaborators' domains
+
+**December 2024:** By the end of December, we hope to have completed each of the following.
+
++ Finalized versions of activities with collaborators who are willing and able to pilot one or more of the activities in a spring 2025 course
++ Drafts, at a minimum, of the third activity for each of our partner disciplines
++ Identified at least two new contexts within which to develop our three activities
+
+  + These contexts may be within new disciplines (preferred) or cover different applications within an already covered domain
+  + In cases, where we are developing new applications within a covered discipline we may use the same partner or identify a new partner
+  
+    + An additional draw of these activities is that contexts developed can be within an active area of their research, exposing students to that work, and gaining potential undergraduate collaborators -- this would be a rationale for pursuing a different partner even in a covered domain 
+
+## Disciplines, Partners, and Topics
+
++ Biology with Dr. Katie Duryea, *Estimating and Comparing the Prevalence of Chytrid Fungus Infections in Frogs Across Ponds*
++ More disciplines to come, including (but not limited to) Psychology, Sociology, Criminal Justice, Political Science, and Economics.
+
+## Funding 
+
+The BATS program is supported by the [NSF IUSE: EHR program](https://www.nsf.gov/pubs/2021/nsf21579/nsf21579.htm) with award numbers 2215879, 2215920, and 2215709
+
+

@@ -1,0 +1,10 @@
+To Do:
+
+1. Context free draft activity 2
+2. README with steps to set up and script that will automate setup
+3. Talk with Katie
+4. Laura will finish up activity 3
+5. How to handle Bayes Rules! Explanation in our activity -- essentially quoted. Use callout box, cite location -- show to Mine and see what she thinks and/or would prefer.
+
+** Make sure in activity 2 work to transition from looking at the guts to using functionality and packages -- check out Bayes Rules! and Monika's books
+

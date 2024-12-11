@@ -1,0 +1,340 @@
+---
+title: "Bayesian Boundaries: Investigating Credible Intervals (Context-Free)"
+format: html
+theme: flatly
+draft: true
+toc: true
+date: "09/13/2024"
+date-modified: today
+date-format: long
+bibliography: act2bib.bibtex
+author: 
+  - name: "Adam Gilbert"
+    affiliations: 
+      - name: "Southern New Hampshire University"
+  - name: "Laura Lambert"
+    affiliations: 
+      - name: "James Madison University"
+engine: knitr
+webr:
+  channel-type: 'automatic'
+  packages: ["ggplot2", "dplyr", "bayesrules", "HDInterval", "patchwork"]
+  
+filters:
+  - webr
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(kable_styling_bootstrap_options = c("hover", "striped"))
+
+library(tidyverse)
+library(kableExtra)
+library(bayesrules)
+library(HDInterval)
+library(patchwork)
+
+theme_set(theme_bw(base_size = 14))
+
+
+##Need to deal with data "read in" via webr cells not available at render time.
+##This means inline R with that data and associated values is not possible.
+##For now, I'm just adding in the values to make this work -- I'll likely 
+##pre-read data in, compute the necessary values, and then remove the data frame
+new_obs <- 157
+new_pos <- 102
+```
+
+:::{.callout-note}
+## Context-Free Activity
+This activity is a *context-free scaffold*. You'll almost surely find it to be incomplete, and that's on purpose! We are designing this series of activities to have a *domain-specific* context laid over them. Throughout the activity, you'll see purple text, which is text that should be replaced with context-specific content. A rough draft completed activity will be [made available here when it is ready](https://agmath.github.io/Bayes-BATS-tier2/act2_bio_chytrid.html).
+:::
+
+## Goals and Objectives
+
+**Statistics Goals:** The statistics-focused goals of this activity are as follows:
+
++ Recall the notion of the *prior* and *posterior* distributions
++ Extract a credible interval from a *posterior* distribution
++ Interpret a credible interval obtained from a *posterior* distribution
+
+**Course Objectives:**  This activity would map to course-level objectives similar to the following.  Note that this is not an exhaustive list, nor should it be interpreted that objectives must be phrased identically.  This is to give an idea as to the wide variety of contexts this activity might be placed in.
+
++ Students will evaluate a research question using appropriate statistical techniques
++ Students will correctly identify the type of data they are working with
++ Students will evaluate literature and/or prior research to generate hypotheses for a research question
++ Students will learn about different statistical models and approaches
++ Students will interpret coefficients from a statistical model
++ Students will evaluate the underlying assumptions of a statistical approach
++ Students will consider the ethical implications of statistical approaches
++ Students will gather data using methodologies appropriate to the context
+
+<font color="purple">**Subject-Area Objectives:** This section will be utilized to identify objectives/outcomes specific to the course/subject to which the activity context is linked. This allows adopters to cover objectives associated with their course while embedding Bayesian thinking.</font>
+
+## Background Information
+
+The following subsections outline the background information for this activity from both a statistics and domain-specific lens. 
+
+### Data Analysis and Bayesian Thinking
+
+There are many statistical tools which can be used to test hypotheses about population parameters. Broadly speaking, these tools fall into three categories:
+
++ Classical/Frequentist methods 
++ Simulation-based methods
++ Bayesian methods
+
+Perhaps you've encountered frequentist methods previously. These methods depend on distribution assumptions and the Central Limit Theorem. In this notebook, we engage in extracting and interpreting a credible interval from a *posterior* distribution. We'll provide a quick recap on the *posterior* distribution and how it is obtained from our *prior* distribution and out observed data in this notebook, but check back on [our first activity](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1.html) for more details.
+
+### About the Context
+
+<font color="purple">This subsection includes background on the domain-specific context for the activity.</font>
+
+### Purpose
+
+Let's build off of what we learned in the first activity and continue trying to estimate the <font color="purple">[population parameter in context]</font> by extracting a *credible interval* from the *posterior distribution*.
+
+## Reminder About Prior and Posterior Distributions
+
+In Bayesian Inference, a *prior distribution* is an expression of our prior beliefs about a population parameter. It acknowledges our uncertainties while, at the same time, allowing prior knowledge or experiences to have some influence on our conclusions. In this way, we aren't depending on the randomly sampled data to completely determine our findings.
+
+In [our first activity](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1.html), we saw that we can obtain the *posterior* distribution from our *prior* and our data by making use of a form of Bayes' Rule.
+
+$$\mathbb{P}\left[\text{parameter value} \mid \text{data}\right] = \frac{\mathbb{P}\left[\text{data} \mid \text{parameter value}\right]\cdot \mathbb{P}\left[\text{parameter value}\right]}{\mathbb{P}\left[\text{data}\right]}$$
+
+In that activity, we did all of the Bayesian updating to obtain the prior "by hand". That is, we built the *posterior* distribution by explicitly applying the relationship above via code. You could read through the code and see exactly how and where the update was being made.
+
+### Convenient Functionality from `{bayesrules}`
+
+Beginning with this activity, we'll shift to less transparent, but more convenient, functionality to conduct the Bayesian updating from here on out. The *Bayes Rules! An Introduction to Bayesian Modeling* book written by Johnson, Ott, and Dogucu [@bayesrulesbook] along with their corresponding `{bayesrules}` R package [@bayesrulespkg] provides the excellent functionality that we'll benefit from.
+
+If you recall, in that first activity we had begun by assuming a completely uninformative prior -- <font color="purple">a beta distribution with one observed success and one observed failure</font>. We then updated that prior with our <font color="purple">initially observed data including eight (8) successes out of twelve (12) observations</font>. We can quickly obtain a plot of our *prior*, our data *likelihood*, our *posterior*, and some summary statistics just by using the `plot_beta_binomial()` and `summarize_beta_binomial()` functions from `{bayesrules}`.
+
+**Add paragraph with information about parameters for `plot_beta_binomial()` as well as the results from running that function -- what do the results "mean" and how can we utilize them?**
+
+```{r}
+plot_beta_binomial(alpha = 1, beta = 1, y = 8, n = 12)
+```
+
+From the plot above, we can see our assumed *prior* distribution in yellow and our *posterior* distribution in a purplish color. Note that the *posterior* and the scaled *likelihood* overlap exactly here because of our assumed uniform prior.
+
+Now we'll use `summarize_beta_binomial()` to obtain summary statistics on the *prior* and *posterior* distributions. **Add discussion about parameters for `summarize_beta_binomial()` as well as the results from running that function -- what do the results "mean" and how can we utilize them?**
+
+```{r}
+#| echo: true
+#| eval: false
+
+summarize_beta_binomial(alpha = 1, beta = 1, y = 8, n = 12)
+```
+
+```{r}
+#| echo: false
+#| eval: true
+
+summarize_beta_binomial(alpha = 1, beta = 1, y = 8, n = 12) %>%
+  kable() %>%
+  kable_styling()
+```
+
+We'll quickly revisit the second thing we did in that activity as well. You may remember that we got advice from an expert, indicating that <font color="purple">we suspect that the population proportion should be near 60%, given prior research results</font>. At that point, we re-evaluated our choice of *prior* distribution to reflect this. <font color="purple">We chose a *weak prior*, which was still a beta distribution but with 6 previously observed successes and 4 previously observed failures. Such a prior is weak because it assumes information from very few previous observations.</font>
+
+Let's plot that prior, along with the scaled likelihood and posterior distribution using `plot_beta_binomial()` and also obtain the numerical summaries for the prior and posterior distributions while we are at it.
+
+```{r}
+plot_beta_binomial(alpha = 6, beta = 4, y = 8, n = 12)
+```
+
+```{r}
+#| echo: true
+#| eval: false
+
+summarize_beta_binomial(alpha = 6, beta = 4, y = 8, n = 12)
+```
+
+```{r}
+#| echo: false
+#| eval: true
+
+summarize_beta_binomial(alpha = 6, beta = 4, y = 8, n = 12) %>%
+  kable() %>%
+  kable_styling()
+```
+
+From the output above, we can see that the *prior*, the scaled likelihood, and the *posterior* are all distinct. The *prior* and the *likelihood* of our observed data act together to arrive at the *posterior* distribution.
+
+While we are transitioning to the more "black box" functionality in this activity (and you'll continue with similar functionality in the remaining activities too), the foundation you built in engaging with the first activity should give you some intuition about what functions like `plot_beta_binomial()` and `summarize_beta_binomial()` are doing "under the hood". 
+
+:::{.callout-caution}
+## Reflection Question
+
+Take this opportunity to discuss what is happening "behind the scenes" when the `plot_beta_binomial()` function is run.
+:::
+
+## Parameter Estimation with Intervals
+
+Through the main section of this activity, you'll explore two types of intervals which can be used to estimate the location of a population parameter. The first is the *credible interval* (CIs), which is the Bayesian analog to the Frequentist's *confidence interval*. The second is the *highest density probability interval* (HDPIs), which may do a better job than the credible interval does at identifying the "most likely" location of the population parameter.
+
+Before we get into CIs and HDPIs, let's get ourselves back to where we were at the end of the last activity. <font color="purple">As you might remember, we obtained the following data. 
+
+As a reminder, we can set up this code chunk so that the data is
+
++ simulated, as in the code chunk below.
++ read in from a location on the web (for example, a GitHub repository). This could be data from a study, a publication, your own research, etc.
++ collected in class and manually input into the `status` column of the *tibble* below. 
+  
+  + This is an unlikely choice due to the relatively small sample size and time required to input data. This method could be accommodated if data is collected via a digital form and then read from a spreadsheet (ie. Google Forms/Sheets).
+
+The code below will be replaced based on the choice made above.
+</font>
+
+```{webr-r}
+new_obs <- 157
+set.seed(072324)
+my_data <- tibble(
+  obs_number = 1:new_obs,
+  status = sample(c("yes", "no"), 
+                  size = new_obs,
+                  prob = c(0.7, 0.3), 
+                  replace = TRUE)
+)
+
+num_pos <- my_data %>%
+  filter(status == "yes") %>%
+  nrow()
+
+print(paste0("Of the ", new_obs, 
+             " observations, there were ", 
+             num_pos, " positive responses."))
+```
+
+Use the `plot_beta_binomial()` and `summarize_beta_binomial()` functions in the code cell below to update your <font color="purple">weakly informative `beta(6, 4)` prior with these `r new_obs` observations including `r new_pos` positive outcomes.</font>
+
+```{webr-r}
+
+```
+
+:::{.callout-caution}
+## Reflection Question
+
+Visually and numerically, what insights do the results from these two function calls give you about the most likely values of your `<font color="purple">population parameter</font>?
+:::
+
+### Credible Intervals
+
+If you've taken a statistics course using the *frequentist approach*, you almost surely encountered the notion of a confidence interval. A *confidence interval* captures a population parameter with a prescribed level of confidence. The mechanics here indicated that, if we were to take many random samples of a fixed size from the same population and calculate a confidence interval for each, we would expect a certain proportion of those intervals (say, 95% for a 95% confidence level) to contain the true population parameter. We only collect a single sample, so when a 95% confidence interval is constructed in the frequentist sense, we are really claiming that there we have 95% confidence that our random sample is one of those whose resulting confidence interval contains the true value of the population parameter.
+
+At best, confidence intervals have a somewhat awkward interpretation and, at worst, they are misinterpreted altogether. Bayesian inference provides an alternative with a more intuitive interpretation. In Bayesian inference, we make use of *credible intervals*, obtained from the *posterior distribution*. As an example, a 90% credible interval extends from the $5^{\text{th}}$ percentile to the $95^{\text{th}}$ percentile of the posterior distribution. An enormous advantage to credible intervals is that they permit a simple, probabilistic interpretation -- *there is a 90% probability that the population parameter falls between the lower and upper bound of the credible interval*. Such an interpretation is intuitive.
+
+In this section of our activity, we'll compute and interpret credible intervals. To do so, we'll need a bit of information about the `qbeta()` function, which can be used to calculate "quantiles" from a beta distribution. To use `qbeta()`, we simply pass the proportion of observations to the left of the quantile we are interested in extracting, the $\alpha$ parameter, and the $\beta$ parameter for the beta distribution. The result will be the corresponding cutoff value in the beta distribution. For example, we can calculate the $5^{\text{th}}$ percentile and the $95^{\text{th}}$ percentile from our *weakly informative* `beta(6, 4)` prior from earlier as follows.
+
+```{r}
+lower_bound <- qbeta(0.05, 6, 4)
+upper_bound <- qbeta(0.95, 6, 4)
+
+lower_bound
+upper_bound
+```
+
+That is, before we observed any data, our prior distribution told us that there was a 90% probability that the population parameter was between about 34.5% and about 83.1%. Note that we could have also calculated both of these bounds at once using `qbeta(c(0.05, 0.95), shape1 = 6, shape2 = 4)`
+
+Use the updated data and your results from `summarize_beta_binomial()`, along with the `qbeta()` function to extract a new 90% credible interval for the population proportion.
+
+```{webr-r}
+
+```
+
+:::{.callout-caution}
+Interpret your resulting credible interval and discuss your interpretation with a partner.
+:::
+
+Now calculate a 95% credible interval for the population proportion. 
+
+```{webr-r}
+
+```
+
+:::{.callout-caution}
+Discuss these new bounds with people near you.
+:::
+
+### Highest Posterior Density Intervals
+
+It is possible that a credible interval may exclude some population parameter values that are quite likely in reality. This is particularly the case when we are extracting our credible interval from a skewed posterior distribution. Highest posterior density intervals (HPDIs) provide an alternative to credible intervals which capture the "most likely" values of the population parameter.
+
+We can use the `hdi()` function from the `{HDInterval}` R package for this. For example, returning to our *weakly informative prior* of `beta(shape1 = 6, shape2 = 4)` from earlier, we can calculate a 90% HPDI as follows:
+
+```{r}
+hdi(qbeta, credMass = 0.90, shape1 = 6, shape2 = 4)
+```
+
+Similarly to the credible interval, before we observed any data, our prior distribution told us that the 90% most likely values for the population parameter were between 36.1% and 84.5%.
+
+Use the results from `summarize_beta_binomial()`, accounting for our newly observed data, to obtain an updated 90% HPDI for our population parameter by using `hdi()`.
+
+```{webr-r}
+
+```
+
+:::{.callout-caution}
+Interpret your resulting *highest posterior density interval* and discuss your interpretation with people around you.
+:::
+
+Calculate a 95% HDPI for the population proportion. 
+
+```{webr-r}
+
+```
+
+:::{.callout-caution}
+Discuss these new bounds with the people around you as well.
+
+:::
+
+### Comparing the Credible Interval and the HPDI
+
+We can compare the bounds from our estimated credible interval and the bounds for our HPDI from our *weakly informative* `beta(shape1 = 6, shape2 = 4)` *prior*. Let's see that below before you do the same with the posterior distribution.
+
+```{r}
+ci_bounds <- qbeta(c(0.05, 0.95), shape1 = 6, shape2 = 4)
+hpdi_bounds <- hdi(qbeta, credMass = 0.90, shape1 = 6, shape2 = 4)
+
+prop_vals <- seq(0, 1, length.out = 500)
+ci_sequence <- seq(ci_bounds[1], ci_bounds[2], length.out = 250)
+hpdi_sequence <- seq(hpdi_bounds[1], hpdi_bounds[2], length.out = 250)
+
+ggplot() + 
+  geom_ribbon(aes(x = ci_sequence,
+                  ymin = 0,
+                  ymax = dbeta(ci_sequence, shape1 = 6, shape2 = 4),
+                  fill = "Credible Interval"),
+              alpha = 0.75) +
+  geom_ribbon(aes(x = hpdi_sequence,
+                  ymin = 0,
+                  ymax = dbeta(hpdi_sequence, shape1 = 6, shape2 = 4),
+                  fill = "HPDI"),
+              alpha = 0.5) +
+  geom_line(aes(x = prop_vals, y = dbeta(prop_vals, shape1 = 6, shape2 = 4))) + 
+  scale_fill_manual(values = c("Credible Interval" = "purple", "HPDI" = "darkgreen")) + 
+  labs(title = "A Comparison of Intervals",
+       x = "Population Proportion",
+       y = "",
+       fill = "Interval Type")
+```
+
+We can see that the two intervals largely agree on the location of the population proportion, however the HPDI entertains some higher population proportions and does not consider the lowest values deemed plausible by the credible interval. Now, use the code chunk below to compare the bounds for your *credible* and *highest posterior density* intervals. You can choose to compare visually, as shown above, or numerically.
+
+```{webr-r}
+
+```
+
+:::{.callout-caution}
+
+Compare and contrast your *credible intervals* with your *highest posterior density intervals* (HPDI). What is the difference in interpretations between a 90% credible interval and a 90% HPDI? When might you use an HPDI instead of a credible interval?
+:::
+
+## Summary
+
+## References
+
+:::{.refs}
+
+:::

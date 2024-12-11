@@ -1,0 +1,490 @@
+---
+title: "A Bayesian Approach to Confidence Intervals: Impacts of the Prior and Data"
+authors: 
+  - name: Adam Gilbert
+    affiliations: Southern New Hampshire University
+  - name: Katie Duryea
+    affiliations: Southern New Hampshire University
+  - name: Laura Lambert
+    affiliations: James Madison University
+format: html
+theme: flatly
+toc: true
+engine: knitr
+webr:
+  channel-type: 'automatic'
+  packages: ["ggplot2", "dplyr"]
+  
+filters:
+  - webr
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(kable_styling_bootstrap_options = c("hover", "striped"))
+
+library(tidyverse)
+library(kableExtra)
+
+theme_set(theme_bw(base_size = 14))
+```
+
+<!-- ## Biology Context: Chytrid Fungus in Frogs -->
+
+# About this Notebook
+
+**Goals:** The goals of this activity are as follows:
+
++ Show students an alternative to the Frequentist approach to capturing a population parameter.
++ Students discover the impact of choice of prior on their plausible range.
++ Students discover the impact of amount of data on their plausible range.
+
+
+**Course Objectives:**  This activity would map to course-level objectives similar to the following.  Note that this is not an exhaustive list, nor should it be interpreted that objectives must be phrased identically.  This is to give an idea as to the wide variety of contexts this activity might be placed in.
+
++ Students will evaluate a research question using appropriate statistical techniques
++ Students will correctly identify the type of data they are working with
++ Students will evaluate literature and/or prior research to generate hypotheses for a research question
++ Students will learn about different statistical models and approaches
++ Students will interpret coefficients from a statistical model
++ Students will evaluate the underlying assumptions of a statistical approach
++ Students will examine the ecological impact of different pathogens, both native and introduced
++ Students will consider the ethical implications of statistical approaches
++ Students will gather data using methodologies appropriate to the context
+
+**Outline:** The following is a loose outline to this project. The idea is to use this in-class on the day that follows the Topic 11 notebook on inference for categorical data.
+
++ Context is Chytrid Fungus in NH frogs
++ We search for the population parameter of frogs with Chytrid
++ The notebook begins with a short overview of the Chytrid Fungus project.
++ A sample analysis is conducted with a very uninformative prior.
++ Students then update the analysis to use a more appropriate prior which is supported by current research.
+
+## Background Information
+
+There are many statistical tools which can be used to test hypotheses about population parameters. Broadly speaking, these tools fall into three categories:
+
++ Classical/Frequentist methods 
++ Simulation-based methods
++ Bayesian methods
+
+Perhaps you've encountered frequentist methods previously. These methods depend on distribution assumptions and the Central Limit Theorem. In this notebook, we'll introduce Bayesian methods. In particular, you'll explore how your prior belief (controlled via your choice of *prior distribution*) and the strength of your observed data work together to produce updated beliefs (a *posterior distribution*).
+
+<!-- Some background connecting what we are doing here to what we've done so far...
+
++ In our course, we focus on the *frequentist* approach to statistics and inference.
+
+  + In the *frequentist* approach, the observed data completely determines the inferences we make. 
+
++ There are other approaches to statistics and inference -- one of which is *Bayesian*.
+
+  + In *Bayesian inference*, we approach our tasks with some prior belief about the value of our population parameter.
+  + We use that prior belief, in conjunction with our data, to produce an updated version of our beliefs.
+
+In this interactive notebook, you'll see the Bayesian approach to inference on a population proportion in action. You'll explore how your prior belief (controlled via your choice of *prior distribution*) and the strength of your observed data work together to produce updated beliefs.
+-->
+
+### About Chytrid
+
+Chytrid fungus is an infectious fungal disease that can be fatal to amphibians and has caused some species to become extinct. Check out this video from Chris Egnoto to learn more about this threat to amphibian life.
+
+<center>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ZFb5wLOVr9A?si=njkcs8w7jH_V3jri" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+</center>
+
+### Purpose
+
+Let's try to estimate the proportion of frogs in southern New Hampshire which are impacted by chytrid fungus.
+
+### Prior Assumptions
+
+Perhaps today is our first time learning about chytrid fungus and frogs. We may have no expectation about what our population proportion ($\pi$) might be. In the Frequentist approach, we would let the data completely determine the inference we make about the proportion. In Bayesian inference, we take a different approach and assign a prior distribution over the population proportion we are looking for. Since today is the first we've heard of Chytrid, let's set up a prior that indicates nearly all values of $\pi$ are equally likely.
+
+```{r}
+alpha <- 1
+beta <- 1
+#Fewer points results in more jagged pictures
+grid_pts <- 500
+
+#Create prior distribution 
+my_dists <- tibble(
+  pi = seq(0, 1, length.out = grid_pts), #possible proportion values
+  prior_prob = dbeta(pi, alpha, beta) #prior probability
+)
+
+#Plot prior distribution
+my_dists %>%
+  ggplot() + 
+  geom_area(aes(x = pi, y = prior_prob), 
+            fill = "purple", alpha = 0.4) + 
+  geom_line(aes(x = pi, y = prior_prob),
+            linetype = "dashed") + 
+  labs(
+    title = "Prior Distribution",
+    x = "π",
+    y = ""
+  ) + 
+  ylim(c(-0.2, 3))
+```
+
+:::{.callout-note}
+## Shape of Prior
+
+The Beta-distribution we use here is commonly used with binomial data. It is determined by two shape parameters `alpha` ($\alpha$) and `beta` ($\beta$). We can think of $\alpha$ as the number of previously observed successes and $\beta$ as the number of previously observed failures. Choosing $\alpha = 1$ and $\beta = 1$, results in a prior that allows for both successes and failures ($\pi \neq 0$ and $\pi \neq 1$) but which has no other certainty about the true value of $\pi$.
+:::
+
+## Observed Data
+
+In the actual activity, we'll read in real data below. For now, let's generate some fake data.
+
+```{r}
+num_frogs <- 12
+set.seed(071524)
+my_data <- tibble(
+  frog_number = 1:num_frogs,
+  status = sample(c("positive", "negative"), 
+                  size = num_frogs,
+                  prob = c(0.7, 0.3), 
+                  replace = TRUE)
+)
+
+num_pos <- my_data %>%
+  filter(status == "positive") %>%
+  nrow()
+
+print(paste0("Of the ", num_frogs, 
+             " frogs observed, the number positive for Chytrid fungus was ", 
+             num_pos, "."))
+```
+
+## Obtaining the Posterior
+
+Now we'll use our data to update the *prior* distribution and obtain the *posterior* distribution for our population proportion. We obtain the posterior distribution by multiplying the prior by the *likelihood* function and then dividing by a normalizing factor to ensure that the result is a probability density (that is, the total probability is 1). The likelihood measures the probability of observing our data at each possible value of the population proportion. 
+
+$$\underbrace{\mathbb{P}\left[\text{proportion} | \text{data}\right]}_{\text{posterior}} = \frac{\overbrace{\mathbb{P}\left[\text{data} | \text{proportion}\right]}^{\text{likelihood}}\cdot \overbrace{\mathbb{P}\left[\text{proportion}\right]}^{\text{prior}}}{\underbrace{\mathbb{P}\left[\text{data}\right]}_{\text{normalizing factor}}}$$
+
+```{r}
+#Construct the posterior
+my_dists <- my_dists %>%
+  mutate(
+    #Compute likelihood using binomial distribution
+    likelihood = choose(num_frogs, num_pos)*pi^num_pos*(1 - pi)^(num_frogs - num_pos), 
+    #Compute posterior as likelihood*prior
+    post_prob = likelihood*prior_prob,
+    #Normalize posterior
+    post_prob_normalized = post_prob/(sum(post_prob)*1/grid_pts))
+
+#Plot prior and posterior
+my_dists %>%
+  ggplot() + 
+  geom_area(aes(x = pi, y = prior_prob, fill = "prior"), 
+            alpha = 0.4) + 
+  geom_line(aes(x = pi, y = prior_prob),
+            linetype = "dashed") + 
+  geom_area(aes(x = pi, y = post_prob_normalized, fill = "posterior"), 
+            alpha = 0.7) + 
+  geom_line(aes(x = pi, y = post_prob_normalized),
+            linetype = "dashed") +
+  labs(
+    title = "Prior and Posterior Distributions",
+    x = "π",
+    y = "",
+    fill = "Distribution"
+  ) +
+  scale_fill_manual(values = c("prior" = "purple", "posterior" = "orange"))
+```
+
+Notice that, after seeing the data, our *posterior* estimate for the proportion of frogs impacted by Chytrid has been updated. It looks very unlikely that $\pi$ is less than 0.25 (those population proportions seem incompatible with our observed data), and the most likely proportions are between 0.5 and 0.8.
+
+### Credible interval for $\pi$
+
+Using the Bayesian approach here, we can compute an interval of plausible values for $\pi$. We call this a *credible interval* rather than the *confidence interval* encountered in Frequentist methods. Let's calculate a 95\% credible interval for $\pi$ by approximating the boundary values for the 2.5th percentile and the 97.5th percentile in the posterior distribution.
+
+```{r}
+#Extract Bounds
+bounds <- my_dists %>%
+  #Calculate cumulative posterior probability
+  mutate(post_percentile = cumsum(post_prob_normalized*(1/grid_pts))) %>%
+  #Find distances between 2.5th and 97.5th percentiles
+  mutate(from_lower = abs(post_percentile - 0.025),
+         from_upper = abs(post_percentile - 0.975)) %>%
+  #Extract rows with cumulative posterior probability closest to 2.5 or 97.5
+  filter((from_lower == min(from_lower)) | (from_upper == min(from_upper)))
+
+#Print out the Bounds
+bounds %>% 
+  kable() %>%
+  kable_styling(bootstrap_options = c("hover", "striped"))
+```
+
+We can see that the estimated lower bound of our 95% credible interval for $\pi$ is `r bounds %>% slice(1) %>% pull(pi)` and the upper bound is `r bounds %>% slice(n()) %>% pull(pi)`. We can interpret this to mean that *there is about a 95% probability that the proportion of frogs in southern New Hampshire is between `r bounds %>% slice(1) %>% pull(pi)` and `r bounds %>% slice(n()) %>% pull(pi)`*.
+
+Note that the interpretation of the *credible interval* differs from the interpretation of the Frequentist's *confidence interval*.
+
+## Investigating Further
+
+Now that you've seen one Bayesian analysis to estimate the proportion of frogs impacted by Chytrid, let's reproduce the analysis and explore the impact of (i) choice of prior, (ii) strength of data, and (iii) the combination of data and prior.
+
+:::{.panel-tabset}
+
+## Influence of the Prior
+
+In this section, you'll have an opportunity to reproduce the analysis above, but with a different choice of prior distribution on $\pi$.
+
+:::{.callout-important}
+## From Dr. Duryea
+
+[This is a placeholder for now...] In her research, Dr. Duryea has noted that approximately 60% of frogs are impacted by Chytrid.
+:::
+
+Recall that, in the Beta distribution, the two parameters `alpha` ($\alpha$) and `beta` ($\beta$) can be thought of as the number of prior successes and prior failures, respectively. Update the code chunk below to choose an `alpha` and `beta` that will result in the 60% estimate observed by Dr. Duryea in her research. Run the code to construct and visualize your prior.
+
+```{webr-r}
+#Update alpha and beta here
+##number of prior observed successes
+alpha <- 1
+##number of prior observed failures
+beta <- 1
+
+#Fewer points results in more jagged pictures
+grid_pts <- 500
+
+#Create prior distribution
+my_dists <- tibble(
+  pi = seq(0, 1, length.out = grid_pts), #possible proportions
+  prior_prob = dbeta(pi, alpha, beta) #prior probability
+)
+
+#Plot prior distribution
+my_dists %>%
+  ggplot() + 
+  geom_area(aes(x = pi, y = prior_prob), 
+            fill = "purple", alpha = 0.4) + 
+  geom_line(aes(x = pi, y = prior_prob),
+            linetype = "dashed") + 
+  labs(
+    title = "Prior Distribution",
+    x = "π",
+    y = ""
+  )
+```
+
+> **Question:** How does this prior compare to our original prior? Use your understanding of `alpha` and `beta` to justify what you are seeing.
+
+Now that you've built this new prior, run the code cell below to generate the observed data. Don't make any changes to the code just yet (**Note:** I don't think I want this here, but keep it for now).
+
+```{webr-r}
+#Generate data -- will replace with code to read in actual data
+num_frogs <- 12
+set.seed(071524)
+my_data <- tibble(
+  frog_number = 1:num_frogs,
+  status = sample(c("positive", "negative"), 
+                  size = num_frogs,
+                  prob = c(0.7, 0.3), 
+                  replace = TRUE)
+)
+
+num_pos <- my_data %>%
+  filter(status == "positive") %>%
+  nrow()
+
+print(paste0("Of the ", num_frogs, 
+             " frogs observed, the number positive for Chytrid fungus was ", 
+             num_pos, "."))
+```
+
+Now run the code chunk below to use the observed data to calculate and plot the updated posterior.
+
+```{webr-r}
+#Calculate posterior probability
+my_dists <- my_dists %>%
+  mutate(
+    #Compute likelihood using binomial distribution
+    likelihood = choose(num_frogs, num_pos)*pi^num_pos*(1 - pi)^(num_frogs - num_pos),
+    #Compute posterior as likelihood*prior
+    post_prob = likelihood*prior_prob,
+    #Normalize posterior
+    post_prob_normalized = post_prob/(sum(post_prob)*1/grid_pts)
+    )
+
+#Plot posterior
+my_dists %>%
+  ggplot() + 
+  geom_area(aes(x = pi, y = prior_prob, fill = "prior"),
+            alpha = 0.4) + 
+  geom_line(aes(x = pi, y = prior_prob),
+            linetype = "dashed") + 
+  geom_area(aes(x = pi, y = post_prob_normalized, fill = "posterior"), 
+            alpha = 0.7) + 
+  geom_line(aes(x = pi, y = post_prob_normalized),
+            linetype = "dashed") +
+  labs(
+    title = "Prior and Posterior Distributions",
+    x = "π",
+    y = ""
+  ) + 
+  scale_color_manual(values = c("prior" = "purple", "posterior" = "orange"))
+```
+
+Run the code block below to compute the *credible interval*.
+
+```{webr-r}
+#Extract bounds
+bounds <- my_dists %>%
+  #Calculate cumulative posterior probabilities
+  mutate(post_percentile = cumsum(post_prob_normalized*(1/grid_pts))) %>%
+  #Compute distance from 2.5th and 97.5th percentiles
+  mutate(from_lower = abs(post_percentile - 0.025),
+         from_upper = abs(post_percentile - 0.975)) %>%
+  #Extract the rows closest to the 2.5th or 97.5th percentile
+  filter((from_lower == min(from_lower)) | (from_upper == min(from_upper)))
+
+#Print out the bounds
+bounds
+```
+
+Recall that our original credible interval for $\pi$, with the uninformative prior, were `r bounds %>%
+slice(1) %>% pull(pi)` and `r bounds %>% slice(n()) %>% pull(pi)`, respectively. The new bounds differ because of the prior we chose.
+
+## Influence of Data
+
+In this section you'll have an opportunity to reproduce the analysis above, but with different data sources for updating. In particular, you'll explore the impact that the number of observations can have on the posterior distribution.
+
+:::{.callout-important}
+## From Dr. Duryea
+
+[This is a placeholder for now...] Dr. Duryea's students have finished processing their most recent collection of samples. She has provided us with a larger collection of observed data. Let's see the impact that this larger data set has on updating the prior distribution.
+:::
+
+:::{.callout-caution}
+## A Question about Activity Design
+
+The correct thing to do here would be to use this new data to update our previous posterior distribution. This adds more complexity/intricacy to the activity though. What is the tradeoff between explaining a second update to the posterior versus going back to the original prior and updating it with all of the observed data? With the beta-binomial the results will be the same but I don't want to build bad habits/poor understanding by taking a simplistic approach here.
+
+Possible paths forward:
+
++ Address that the correct thing to do would be to update the posterior with the new data, but leave the simplified approach in here and mention that the results are identical in this case.
+
+  + **Drawbacks:** This does not illustrate how learners should *do* Bayesian inference in the future.
+  
++ Explain that statistical inference can be an iterative process in which we continue updating our understanding as new data is collected. Replace the prior with the posterior and use the data to update again.
+
+  + **Drawbacks:** This masks the takeaway that I'm trying to lead students to -- lots of data can have great influence in updating the posterior. Perhaps we can accomplish both goals if the initial set of observations is small enough.
+
+:::
+
+The code chunk below is set to create a weakly informative prior that assumes a population proportion of chytrid fungus infection of 60%, backed by a total of 10 observations. Run the code to construct and visualize this prior.
+
+```{webr-r}
+##number of prior observed successes
+alpha <- 6
+##number of prior observed failures
+beta <- 4
+
+#Fewer points results in more jagged pictures
+grid_pts <- 500
+
+#Create prior distribution
+my_dists <- tibble(
+  pi = seq(0, 1, length.out = grid_pts), #possible proportions
+  prior_prob = dbeta(pi, alpha, beta) #prior probability
+)
+
+#Plot prior distribution
+my_dists %>%
+  ggplot() + 
+  geom_area(aes(x = pi, y = prior_prob), 
+            fill = "purple", alpha = 0.4) + 
+  geom_line(aes(x = pi, y = prior_prob),
+            linetype = "dashed") + 
+  labs(
+    title = "Prior Distribution",
+    x = "π",
+    y = ""
+  )
+```
+
+Now that we have this prior, run the code cell below to generate the observed data. Don't make any changes to the code just yet (**Note:** I don't think I want this here, but keep it for now).
+
+```{webr-r}
+#Generate data -- will replace with code to read in actual data
+num_frogs <- 157
+set.seed(072324)
+my_data <- tibble(
+  frog_number = 1:num_frogs,
+  status = sample(c("positive", "negative"), 
+                  size = num_frogs,
+                  prob = c(0.7, 0.3), 
+                  replace = TRUE)
+)
+
+num_pos <- my_data %>%
+  filter(status == "positive") %>%
+  nrow()
+
+print(paste0("Of the ", num_frogs, 
+             " frogs observed, the number positive for Chytrid fungus was ", 
+             num_pos, "."))
+```
+
+Now run the code chunk below to use the observed data to calculate and plot the updated posterior.
+
+```{webr-r}
+#Calculate posterior probability
+my_dists <- my_dists %>%
+  mutate(
+    #Compute likelihood using binomial distribution
+    likelihood = choose(num_frogs, num_pos)*pi^num_pos*(1 - pi)^(num_frogs - num_pos),
+    #Compute posterior as likelihood*prior
+    post_prob = likelihood*prior_prob,
+    #Normalize posterior
+    post_prob_normalized = post_prob/(sum(post_prob)*1/grid_pts)
+    )
+
+#Plot posterior
+my_dists %>%
+  ggplot() + 
+  geom_area(aes(x = pi, y = prior_prob, fill = "prior"),
+            alpha = 0.4) + 
+  geom_line(aes(x = pi, y = prior_prob),
+            linetype = "dashed") + 
+  geom_area(aes(x = pi, y = post_prob_normalized, fill = "posterior"), 
+            alpha = 0.7) + 
+  geom_line(aes(x = pi, y = post_prob_normalized),
+            linetype = "dashed") +
+  labs(
+    title = "Prior and Posterior Distributions",
+    x = "π",
+    y = ""
+  ) + 
+  scale_fill_manual(values = c("prior" = "purple", "posterior" = "orange"))
+```
+
+Run the code block below to compute the *credible interval*.
+
+```{webr-r}
+#Extract bounds
+bounds <- my_dists %>%
+  #Calculate cumulative posterior probabilities
+  mutate(post_percentile = cumsum(post_prob_normalized*(1/grid_pts))) %>%
+  #Compute distance from 2.5th and 97.5th percentiles
+  mutate(from_lower = abs(post_percentile - 0.025),
+         from_upper = abs(post_percentile - 0.975)) %>%
+  #Extract the rows closest to the 2.5th or 97.5th percentile
+  filter((from_lower == min(from_lower)) | (from_upper == min(from_upper)))
+
+#Print out the bounds
+bounds
+```
+
+Check back on the bounds for your credible interval from the previous section of this activity. The new bounds differ because of the amount of data used to update the prior.
+
+## Combined Influence
+
+Now that you've seen how different priors and different data (separately) result in different inferences, return to the previous section and examine how stronger priors (for example `alpha = 600` and `beta = 400`) interact with our data to influence our inference.
+
+:::
+

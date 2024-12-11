@@ -1,0 +1,63 @@
+---
+title: "Hierarchical Models"
+format: html
+theme: flatly
+draft: true
+toc: true
+date: "09/25/2024"
+date-modified: today
+date-format: long
+author: 
+  - name: "Adam Gilbert"
+    affiliations: 
+      - name: "Southern New Hampshire University"
+  - name: "Laura Lambert"
+    affiliations: 
+      - name: "James Madison University"
+engine: knitr
+webr:
+  channel-type: 'automatic'
+  packages: ["ggplot2", "dplyr"]
+  
+filters:
+  - webr
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(kable_styling_bootstrap_options = c("hover", "striped"))
+
+library(tidyverse)
+library(kableExtra)
+
+theme_set(theme_bw(base_size = 14))
+```
+
+:::{.callout-note}
+## Context-Free Activity
+This activity is a *context-free scaffold*. You'll almost surely find it to be incomplete, and that's on purpose! We are designing this series of activities to have a *domain-specific* context laid over them. Throughout the activity, you'll see purple text, which is text that should be replaced with context-specific content. 
+:::
+
+## Goals and Objectives
+
+**Statistics Goals:** The statistics-focused goals of this activity are as follows:
+
+**Course Objectives:**  This activity would map to course-level objectives similar to the following.  Note that this is not an exhaustive list, nor should it be interpreted that objectives must be phrased identically.  This is to give an idea as to the wide variety of contexts this activity might be placed in.
+
+<font color="purple">**Subject-Area Objectives:** This section will be utilized to identify objectives/outcomes specific to the course/subject to which the activity context is linked. This allows adopters to cover objectives associated with their course while embedding Bayesian thinking.</font>
+
+## Background Information
+
+The following subsections outline the background information for this activity from both a statistics and domain-specific lens. 
+
+### Data Analysis and Bayesian Thinking
+
+
+### About the Context
+
+<font color="purple">This subsection includes background on the domain-specific context for the activity.</font>
+
+### Purpose
+
+Let's try to estimate the <font color="purple">[population parameter in context]</font>.

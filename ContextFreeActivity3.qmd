@@ -1,0 +1,262 @@
+---
+title: "Bayesian Data Analysis"
+format: html
+theme: flatly
+draft: true
+toc: true
+date: "09/25/2024"
+date-modified: today
+date-format: long
+author: 
+  - name: "Adam Gilbert"
+    affiliations: 
+      - name: "Southern New Hampshire University"
+  - name: "Laura Lambert"
+    affiliations: 
+      - name: "James Madison University"
+engine: knitr
+webr:
+  channel-type: 'automatic'
+  packages: ["ggplot2", "dplyr", "brms"]
+filters:
+  - webr
+---
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(kable_styling_bootstrap_options = c("hover", "striped"))
+
+library(tidyverse)
+library(kableExtra)
+library(brms)
+library(bayesplot)
+library(base64enc)
+
+theme_set(theme_bw(base_size = 14))
+```
+
+:::{.callout-note}
+## Context-Free Activity
+This activity is a *context-free scaffold*. You'll almost surely find it to be incomplete, and that's on purpose! We are designing this series of activities to have a *domain-specific* context laid over them. Throughout the activity, you'll see purple text, which is text that should be replaced with context-specific content. 
+:::
+
+## Goals and Objectives
+
+**Statistics Goals:** The statistics-focused goals of this activity are as follows:
+
+  - Students will accurately test if a sampling procedure has adequately converged
+  - Students will describe how to determine the degree of autocorrelation in a chain
+  - Students will use Credible Intervals to reach conclusions about a sample mean
+  
+**Course Objectives:**  This activity would map to course-level objectives similar to the following.  Note that this is not an exhaustive list, nor should it be interpreted that objectives must be phrased identically.  This is to give an idea as to the wide variety of contexts this activity might be placed in.
+
+<font color="purple">**Subject-Area Objectives:** This section will be utilized to identify objectives/outcomes specific to the course/subject to which the activity context is linked. This allows adopters to cover objectives associated with their course while embedding Bayesian thinking.  
+NOTE: It is advised to use the associated simulated data to avoid instances where 'real life' data does not have the same desired characteristics and may not easily converge.  These data are normally distributed, with a mean of 8.5 and a standard deviation of 1.  If you would like to change the mean and standard deviation, it is noted in the first code chunk</font>
+
+## Background Information
+
+:::{.callout-important}
+Much of the Bayes-specific information for this activity was heavily guided by the *Bayesrules* book (Johnson, A.A., Ott, M.Q, and Dogucu, M., 2020; <https://bayesrulesbook.com>), specifically Chapters 5 and 6.  
+:::
+
+The following subsections outline the background information for this activity from both a statistics and domain-specific lens. 
+
+### Data Analysis and Bayesian Thinking
+Now that you have learned about the prior and posterior, as well as credible intervals, you might be curious about how you would use this information to evaluate your data.  We will start with continuous data, and try to determine if a value can be thought to reasonably come from a distribution or not.
+
+We will be using data from <font color="purple">[the context variable]</font>, which is continuous data.  To evaluate this, we need a prior model that will accurately reflect our data, and a *conjugate* posterior.  
+
+:::{.callout-note}
+## Conjugacy
+
+Given:
+
+ - the prior model for parameter $\theta$ has a pdf $f(\theta)$ 
+ - the model of data $Y$ conditioned on $\theta$ has the likelihood function $L(\theta \mid y)$
+
+If the resulting posterior model with pdf $f(\theta \mid y) \propto f(\theta)L(\theta \mid y)$ is from the same model family as the prior, we would say it is a **conjugate prior**
+
+:::
+
+
+Some examples of conjugate families are the beta-binomial model, gamma-poisson model, and normal-normal model.  Why do we care if our posterior and prior model are conjugates?  Having a conjugate family makes computation easier as well as making a more interpretable posterior.  If we do not have a conjugate prior, it becomes very challenging to determine how the prior information and the data have contributed to the posterior model.
+
+As we move into analysis, we will also be considering more priors.  Using the normal distribution as our model (discussed further below), we will be considering priors for both the mean and standard deviation of this distribution.  Some of the necessary sampling procedures will not be discussed in-depth here; if you wish to learn more about the math behind the inferences, there are many good resources to choose from!
+
+### About the Context
+
+<font color="purple">This subsection includes background on the domain-specific context for the activity.</font>
+
+### Purpose
+
+Let's try to determine if the mean value of <font color="purple">[experimental variable]</font> is different from prior research, which determined it to be <font color="purple">[value]</font>.
+
+## Observed Data
+
+We will first examine our data, and determine if a normal prior would be appropriate to use here.
+
+```{r}
+#HERE ARE PARAMETERS THAT YOU CAN CHANGE
+sim_mean <- 8.5 #Change the mean here
+sim_sd <- 1 #Change the standard deviation here
+nobs <- 175 #Change the sample size here
+
+#DO NOT CHANGE THESE PARAMETERS
+set.seed(123456)
+my_data <- tibble(
+  obs_id = 1:nobs,
+  observation = rnorm(n = nobs,
+                      mean = sim_mean,
+                      sd = sim_sd)
+)
+
+```
+
+The code below will generate a histogram of <font color="purple">[variable]</font>.  Looking at the plot, we can determine that the data are approximately normally distributed.  
+
+```{r}
+ggplot(data = my_data) + 
+  geom_histogram(aes(x = observation), bins = 50)
+```
+
+We can also calculate the mean and standard deviation of the data:
+
+```{r}
+mean_obs <- my_data$observation |>
+  mean() |>
+  round(4)
+
+sd_obs <- my_data$observation |>
+  sd() |>
+  round(4)
+
+print(paste0("For the 'observation' variable the mean was ",
+             mean_obs,
+             " and the standard deviation was ",
+             sd_obs,
+             "."))
+```
+
+### Data Model
+When we have normally distributed data, we use the Normal model with two parameters: the mean and standard deviation.  The Normal model can be represented as: $$Y \sim N(\mu,\sigma^{2})$$
+
+:::{.callout-caution}
+## Reflection Question
+Think about the range of values the mean and standard deviation can take.  Are they the same?  Why might they be different?
+:::
+
+Since we do not know the true values of either the mean or the standard deviation, we will be using a joint prior distribution of 
+$$f(\mu, \sigma^{2}) = f(\mu)f(\sigma^{2})$$
+With priors of:
+$$\mu \sim Normal(\theta, \tau^{2})$$
+$$\frac{1}{\sigma^{2}} \sim Gamma(\alpha, \beta)$$
+Let's start with no prior information.  Perhaps we haven't gathered any data yet, or are exploring a new area of study.  To do this, we'll use some non-informative priors for our mean and standard deviation.  
+
+Run the code below to generate an initial fit for the model.  Right now, we are just creating a fit object (`fit`), so you won't see any output.  In the steps below, we will first determine if our model converged (i.e. how well the model ran) before evaluating the fit.  This is similar to checking assumptions before running a frequentist analysis.  If our model didn't run well, we can't trust our results.
+
+```{r}
+#Fit the model
+fit <- brm(data = my_data, family = gaussian(),
+           observation ~ 1, #Here, we are only going to estimate a mean (i.e. the Intercept) and variance
+           prior = c(
+            prior(normal(30,4), class = Intercept), 
+              #The prior for mu has a mean of 30 and a sd of 4
+            prior(cauchy(0,40), class = sigma)
+              #The prior for sigma is half of a center 0, scale 40 Cauchy distribution
+                )
+)
+
+
+```
+
+## Checking Convergence
+The method we are using involves sampling many times from a posterior distribution.  As a result, we need to first verify that our posterior parameter draws have converged *before* we analyze our model.  If the draws did not converge, they are not useful and might not be independent.  
+
+When we move into simulation methods, the samples are no longer taken directly from a posterior distribution, nor are they even independent.  Each sample value will depend on the previous sampled value.  We will specifically be using the Markov Chain Monte Carlo sampling method to estimate our parameters.  While we are leaving the math behind this sampling method to the imagination for now, we do need to know that there are additional steps we need to take to ensure that our simulated posterior distribution is one we can trust.
+
+One way to think about checking if a model converged is akin to how you might check assumptions of a statistical test in a frequentist framework.  You wouldn't want to proceed with a test if your assumptions weren't met.  Likewise, we wouldn't want to proceed with interpreting our results if our model hadn't converged.
+
+### Trace Plots
+One way we can check convergence is by examining the trace plots.  Run the code below to get the posteriors and trace plots for the intercept (mean) and sigma.
+
+```{webr-r}
+plot(fit)
+```
+
+:::{.callout-note}
+Trace plots show each of the sample draws by iteration number.
+:::
+
+The trace plots are on the right - they look like stacked zig-zag lines.  We want to see these lines look like a 'fuzzy caterpillar' and be pretty uniform and straight overall rather than having direction to it, or many out-of-place peaks.  We expect some white noise around the target value, but don't want to see any trends.  If it does not look relatively uniform, we would say the model has not converged and would go back to modify it.  Some potential modifications could be more iterations - more draws - or a longer burn-in.  
+
+### R-hat
+:::{.callout-note}
+$\hat R$ ("R-hat") evaluates if there is consistency across parallel chains.
+:::
+
+Another measure of convergence we check is the $\hat R$ value. Mathematically, this is taking the square root of the ratio of the variability in a parameter across all chains combined to the variability within each individual chain.
+
+$$ \hat R \approx \sqrt{\frac{Var_{combined}}{Var_{within}}}$$
+A "good" $\hat R$ value is 1, with values greater than one indicating instability.  A good rule of thumb is if $\hat R \gt 1.05$ there should be concerns raised about the stability of the chains.
+
+We can get the $\hat R$ of our model by running the following code:
+```{r}
+rhat(fit)
+```
+
+### Effective Sample Size
+Due to the nature of simulated draws from a posterior (sampling), the samples end up being correlated rather than independent - there is some degree of autocorrelation.  We can begin to get an idea as to the degree of autocorrelation by examining the *effective sample size (ESS)*.  The ESS is how many independent samples you would need in order to accurately approximate the posterior.  
+
+If the effective sample size is smaller than the actual sample size, that is an indication that the sampling is not very efficient. 
+
+There are two measures of ESS that we will look at: the `Bulk_ESS` and `Tail_ESS`.  The bulk ESS is most pertinent to the efficiency of mean or median estimates - estimates where the bulk of a distribution is.  Tail ESS, on the other hand, is most pertinent for determining efficiency at the talks of the variance - where a 95% Credible Interval will be.
+
+We can also measure the ESS ratio to quantify the number of independent samples it would take to produce an equivalently accurate posterior approximation. As long as the ratio is greater than 0.1, we would consider that 'good enough'.  
+
+The code below shows how to generate the ESS for the Intercept.  Notice how it is being run on the fit object we made earlier and the parameter(s) of interest.  Run this code - is the ratio greater than 0.1?  What if you change it to the `sigma` parameter?  Is this ratio greater than 0.1?
+
+
+```{r}
+#Calculate the ESS ratio
+neff_ratio(fit, pars = c("Intercept"))
+```
+
+### Autocorrelation
+Looking at the autocorrelation more directly is another way to determine if the each chain is mimicking the behavior of an independent sample.  Due to the nature of sampling, some autocorrelation is to be expected.  However, it is expected to fade out.  In other words, we might expect iteration 2 to be dependent on iteration 1, and iteration 3 to be dependent on iteration 2, and slightly dependent on iteration 1.  
+
+We can examine an autocorrelation plot of our fit model and see how quickly the autocorrelation falls off.  Each chain (our model has 4) will have its own autocorrelation graph.  We expect it to be at 1 initially, then hope that it rapidly (steeply) decreases to around zero.  We also anticipate that the chains behave similarly.
+
+Run the code below to generate autocorrelation plots for the `Intercept` parameter for our fit object.  What do you observe?  Change the code to generate autocorrelation plots for the `sigma` parameter.
+
+```{r}
+#Generate a lag graph
+mcmc_acf(fit, pars = "Intercept")
+```
+
+:::{.callout-note}
+Looking at all of our data above, do you think we can proceed to evaluating our model?  Are there convergence concerns?
+:::
+
+
+## Analysis: Is our mean different than [value]?
+Given that we do not have convergence concerns, we can move on to getting fit data from our model.  The code below will provide summary information for our model: the estimate, 95% Credible Intervals, Rhat, and ESS.
+
+```{r}
+summary(fit)
+```
+
+Recall that our objective for this activity was to determine if the mean value of <font color="purple">[experimental variable]</font> is different from <font color="purple">[value]</font>.
+
+Notice how there is no p-value - how, then do we determine if there's a difference?  
+
+One way to determine if the mean is less than `value` is to calculate the fraction of posterior samples that are less than `value`.
+
+The code below will calculate this.
+
+```{r}
+mean(as_draws_df(fit)$Intercept<8.3)
+```
+
+Another way to determine if the mean is less than `value` is to look at the 95% credible interval, and if `value` falls within it or not.  For our data, the 95% credible interval was `(8.29, 8.77)`, and since `value` falls within the credible interval, we would conclude that the mean is less than `value`.
+
+
+

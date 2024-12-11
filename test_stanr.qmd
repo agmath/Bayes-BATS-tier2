@@ -1,0 +1,41 @@
+---
+title: "Interactive Posterior Update with Precomputed {brms} Results"
+format: html
+editor: source
+engine: knitr
+webr:
+  channel-type: 'automatic'
+  packages: ["ggplot2", "dplyr", "brms", "rstan"]
+filters:
+  - webr
+---
+
+## Updating a Posterior for a Mean
+
+This example uses precomputed results from `{brms}` to demonstrate posterior updates interactively with `{webr}`.
+
+### Precomputed Model Results
+
+The posterior distribution for the mean is based on precomputed results from the `{brms}` package.
+
+```{webr-r}
+# Load required libraries
+library(ggplot2)
+library(tidyverse)
+library(brms)
+library(rstan)
+
+# Load precomputed results
+fit <- readRDS(url("https://agmath.github.io/Bayes-BATS-tier2/precomputed_model.rds")) # Replace with a real URL
+
+# Extract posterior samples
+posterior_samples <- as_draws_df(fit, pars = "b_Intercept")
+
+# Plot posterior distribution
+ggplot(posterior_samples, aes(x = b_Intercept)) +
+  geom_density(fill = "blue", alpha = 0.5) +
+  labs(title = "Posterior Distribution of the Mean",
+       x = "Mean", y = "Density")
+
+```
+

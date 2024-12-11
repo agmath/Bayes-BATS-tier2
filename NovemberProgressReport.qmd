@@ -1,0 +1,57 @@
+---
+title: "Introductory Bayes In Context"
+draft: true
+format: 
+  pdf: default
+date: today
+date-format: long
+theme: flatly
+toc: false
+---
+
+## November 2024 Progress Report
+
+This is a formal progress report on the *Introductory Bayes in Context* project submitted by Adam Gilbert and Laura Lambert as part of Tier 2 of the Bayes-BATS workshop. This document outlines what we set out to accomplish in October 2024, where we stand on those tasks, and what our priorities for November 2024 will be.
+
+### Progress Update
+
+In October, Adam and Laura set out to complete the following major tasks associated with our *Introductory Bayes in Context* project.
+
+1. Finish formalizing the *Bayesian Thinking* objectives associated with each of our activities and add them to the skeleton document.
+2. Draft context-free versions of at least the first two activities (Prior to Posterior and Extracting and Interpreting Credible Intervals)
+3. Begin discussions with potential collaborators across different domain disciplines
+4. Build a completed version of the Prior to Posterior activity within the Chytrid Fungus context, which will serve as an example for other domain-specific versions of all three activities
+
+We are pleased to report that we are *mostly* "on-track" with these items. One pertinent note to make before reading on is that, while we sought out to finish drafts of our first two activities by the end of October, we have finished drafts of the first and third activities instead. That is, we've delivered two completed draft activities, but they are not the two we had initially indicated.
+
+#### Bayesian Thinking Objectives
+
+Bayesian thinking objectives have been fully written for Activity 1 and Activity 3. They still need to be considered for Activity 2.
+
+#### A Second Context-Free Activity (Activity 3)
+
+A second activity has been completed in full draft form, along with a 50% complete draft of a third activity.  The second completed activity addresses how students might start to make conclusions using Bayes, and moves past computing 'by hand' and fully relies on functions within R.  It can be [seen here](https://github.com/agmath/Bayes-BATS-tier2/ContextFreeActivity3.html) 
+
+#### GitHub Branch and Finalizing Chytrid Fungus Activity 1
+
+Due to time constraints, our collaborator Katie has not had the opportunity to engage with a GitHub branch of her own.  She has provided feedback regarding the activity and the context overlaying it, and we are feeling good about the state of both versions of activity one.
+
+#### Future Considerations
+
+We've structured the context-free versions in a way that we hope makes it clear to a collaborator which aspects should be updated to overlay their discipline-specific context over our context-free framework. Conversations around ease-of-use brought up parameterizing contextual values to allow future users to replace context values in a single place, rather than searching the entire document.  We realize this may not be possible for the entire document, but think this will make edits easier.
+
+We are still considering what steps we might take to allow these activities to be as accessible as possible to future users, even those who have no experience with R.  This may look like an extensive README, a short instructional video, or other such guide.  Further conversation with collaborators will also help guide these considerations.  
+
+### November Goals
+
+  - Have three activities fully drafted in context-free versions
+  - Bayesian thinking objectives finalized for all three activities
+  - Potential course objectives mapped for all three activities
+  - Begin drafts of activities within collaborators' domains
+
+
+## Funding 
+
+The BATS program is supported by the [NSF IUSE: EHR program](https://www.nsf.gov/pubs/2021/nsf21579/nsf21579.htm) with award numbers 2215879, 2215920, and 2215709
+
+

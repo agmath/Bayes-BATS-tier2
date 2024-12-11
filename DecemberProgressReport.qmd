@@ -1,0 +1,46 @@
+---
+title: "Introductory Bayes In Context"
+draft: true
+format: 
+  pdf: default
+date: today
+date-format: long
+theme: flatly
+toc: false
+---
+
+## December 2024 Progress Report
+
+This is a formal progress report on the *Introductory Bayes in Context* project submitted by Adam Gilbert and Laura Lambert as part of Tier 2 of the Bayes-BATS workshop. This document outlines the state of our project as of December 6, 2024.
+
+### Progress Update
+
+Context-free versions of our three originally envisioned activities have been developed. Links to those activities appear below.
+
+i) [**Activity 1**, *From the Prior to the Posterior*](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1.html)
+ii) [**Activity 2**, *Bayesian Boundaries: Investigating Credible Intervals*](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity2.html)
+iii) [**Activity 3**, *Testing Hypotheses the Bayesian Way*](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity3.html)
+
+In the discussions we've had with potential collaborators, we have identified an opportunity for a fourth activity focused on modeling with hierarchical models. We intend to develop "context-free" and "discipline-specific" drafts of that activity in the future.
+
+Additionally, we have draft "discipline-specific" versions of the first two activities within Katie Duryea's Chytrid Fungus context from Biology available. You can see and interact with the [first activity](https://agmath.github.io/Bayes-BATS-tier2/act2_bio_chytrid.html) and the [second activity](https://agmath.github.io/Bayes-BATS-tier2/act2_bio_chytrid.html) as well. A few minor adjustments need to be made to these chytrid fungus activities before they are ready for Katie to pilot this spring. First, the biology-specific activity objectives need to be added to the **Goals and Objectives** section of the activity. Second, Katie intends to put her data on a publicly available GitHub repository -- once that is done, we'll update the code chunks in the activity to read those data files rather than simulating the data. These changes will be quick to implement and will be done once Katie has availability.
+
+#### Some Challenges
+
+Currently, we are having some difficulty with deploying our third activity within `{webr}`. In that activity, we intend to use `{brms}` to obtain our updated posterior distribution for the mean via sampling. While [`{brms}` is listed as a package which is available within `{webr}`](https://rud.is/w/webr-pkgs/), the functionality from `{brms}` builds and compiles a `Stan` program, which does not seem to be running in-browser. We would like to stick with `{brms}` functionality for these activities because it provides a convenient interface for conducting a variety of Bayesian analyses, however, we will likely convert this activity to make use of a Gibbs Sampler written in R so that it can be run in-browser via `{webr}`. We've filed [an issue on the `{webr}` GitHub repository](https://github.com/r-wasm/webr/issues) to make the developers aware of the problems we are experiencing with calling `{brms}` functionality in the `{webr}` environment.
+
+Finding collaborators with time to work on discipline-specific versions of these activities during the Fall semester has proved more difficult than we initially expected. We have identified more potential collaborators, but their timeline for activity development is necessarily much longer due to their current teaching responsibilities. The following individuals have expressed interest in co-developing and piloting versions of at least one of the *Introductory Bayes in Context* activities within their disciplines during the 2025-2026 academic year.
+
++ Ann Nordmeyer (Psychology, University of Vermont)
++ ...I should have confirmed interest from one or two more individuals this week...
++ Can we add your colleague here, Laura?
+
+### Continuing Development
+
+Continued development of this project beyond December 2024 was always a plan for us. As identified in the progress update above, we plan to work with our additional collaborators to develop these activities with contexts from their home disciplines. In the very near term, Adam and Katie will work to finalize versions of these activities in her Chytrid Fungus context for a Spring 2025 pilot run. Development of discipline-specific versions of these activities with our other collaborators will happen during the Spring and Summer of 2025, with the intention of running Fall 2025 pilots.
+
+## Funding 
+
+The BATS program is supported by the [NSF IUSE: EHR program](https://www.nsf.gov/pubs/2021/nsf21579/nsf21579.htm) with award numbers 2215879, 2215920, and 2215709
+
+

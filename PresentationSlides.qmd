@@ -1,0 +1,68 @@
+---
+title: "Introductory Bayes In Context"
+subtitle: "A *Bayes-BATS* Tier 2 Project"
+date: today
+date-format: long
+format: 
+  revealjs:
+    fontsize: 28pt
+    theme: sky
+    incremental: true
+author: 
+  - name: Adam Gilbert
+    affiliation: Southern New Hampshire University
+  - name: Laura Lambert
+    affiliation: James Madison University
+---
+
+## Outline
+
++ Project Overview
++ Current Resources and Resource Demo
++ Lessons Learned (and Currently Learning)
++ Future Plans
+
+## Project Overview
+
++ Wanted to create activities which could be used by a variety of colleagues in a variety of disciplines
++ Should allow for course/discipline-specific context to be incorporated easily into the activity
++ Enable other faculty to embed Bayesian thinking into their own courses
++ Activities should have low or no barriers to implementation
++ Activities cover a range of Bayesian procedures (parameter estimation, hypothesis testing, and modeling)
+
+## Available Resources and Demo
+
++ [GitHub Repository](https://github.com/agmath/Bayes-BATS-tier2){target="_blank"}
++ [Activity 1 with Context Overlay (Biology)](https://agmath.github.io/Bayes-BATS-tier2/act1_bio_chytrid_v2.html){target="_blank"}
++ [Context-Free Activity 1](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1_v2.html){target="_blank"}
++ [Additional Resources Available](https://agmath.github.io/Bayes-BATS-tier2/index.html){target="_blank"}
+
+## Some Challenges
+
++ Using `{brms}` in `{webr}`
++ Balancing flexibility with ease of use/adoption
++ Navigating unpredictable data behaviors
++ Finding time with colleagues to co-develop activities in their contexts
+
+## Future Plans
+
++ Biology pilot in Spring 2025
++ Working with additional colleagues to bring activities into different disciplines
++ Environmental Science pilot in Spring 2026
++ Ensuring that others can develop their own versions of the activities independent of Adam and Laura
+
+## Funding Information {.smaller}
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<center>
+
+This work has been supported as part of the Bayes-BATS initiative, sponsored by the NSF IUSE: EHR program with award numbers 2215879, 2215920, and 2215709.
+
+</center>
+
+
+

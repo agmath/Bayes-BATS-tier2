@@ -1,0 +1,81 @@
+---
+title: "Introductory Bayes In Context"
+format: html
+date: "August 21, 2024"
+date-modified: today
+date-format: long
+theme: flatly
+---
+
+:::{.callout-note}
+
+This is a homepage for *Introductory Bayes in Context*, a project to bring foundational components of Bayesian thinking and analysis to undergraduate students within their home disciplines. This project is being led by Adam Gilbert (Southern New Hampshire University) and Laura Lambert (James Madison University), and it is mentored by Jingchen (Monika) Hu (Vassar College). We are part of the Bayes-BATS initiative, sponsored by the [NSF IUSE: EHR program](https://www.nsf.gov/pubs/2021/nsf21579/nsf21579.htm) with award numbers 2215879, 2215920, and 2215709. 
+
+:::
+
+## About
+
+The goal of *Introductory Bayes in Context* is to provide discipline-specific activities covering foundational Bayesian topics. The topics covered by this activity series include 
+
+i) the notion of (and relationship between) the *prior* and *posterior*
+ii) extracting and interpreting *credible intervals* from a posterior distribution
+iii) Bayesian approaches to hypothesis tests comparing two populations 
+iv) Hierarchical models (*coming summer 2025*)
+
+We've developed a basic framework for these activities and are actively developing the activities in several discipline-specific contexts. See the `Context-Free` tab below for links to the activity framework. Additionally, see the discipline-specific tabs for versions of the activities developed in those contexts. This page will continue to update as new contexts are added. The activities are free to utilize and are licensed as `CC-BY-SA`. If you are interested in working with us to develop versions of these activities in your own context, check out the `Future Development` tab.
+
+:::{.panel-tabset}
+
+## Context-Free
+
+*Introductory Bayes in Context* provides a framework for foundational Bayesian activities that can be adapted to diverse disciplines. These context-free versions of the activities serves as a starting point for that adaptation and customization.
+
+Our goal is to partner with faculty to embed these activities into meaningful, discipline-specific contexts. By doing so, we ensure that students see the relevance of Bayesian thinking to their own fields, instructors can integrate the activities seamlessly into their courses, and Bayesian methods become more accessible to a broader audience of students, educators, and researchers.
+
+Below are links to the context-free versions of the *Introductory Bayes in Context* activities.
+
+i) [Activity 1, *From the Prior to the Posterior*](https://agmath.github.io/IntroductoryBayesInContext/ContextFreeActivity1_v2.html)
+ii) [Activity 2, *Bayesian Boundaries: Investigating Credible Intervals*](https://agmath.github.io/IntroductoryBayesInContext/ContextFreeActivity2_v2.html)
+iii) [Activity 3, *Bayesian Data Analysis: Testing Hypotheses*](https://agmath.github.io/IntroductoryBayesInContext/ContextFreeActivity3.html) (currently in development)
+iv) Activity 4, *Hierarchical Models* (Coming in 2025)
+
+## Biology (Chytrid Fungus)
+
+Chytrid fungus, a devastating fungal disease affecting amphibians, has led to population declines and even species extinctions worldwide. In collaboration with Dr. Katie Duryea from the Biology Department at Southern New Hampshire University, we’ve developed a biology-focused version of the *Introductory Bayes in Context* activities. Using real data (coming Spring 2025) collected from frogs in ponds across southern New Hampshire, users will estimate the proportion of frogs afflicted with chytrid fungal infections in southern New Hampshire. Additionally, they will compare the rates of chytrid infection across two ponds.
+
+Check out this video from Chris Egnoto to learn more about this threat to amphibian life.
+
+<center>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ZFb5wLOVr9A?si=njkcs8w7jH_V3jri" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+</center>
+
+Below are links to the *Introductory Bayes in Context* activities in the chytrid fungal context.
+
+i) [Activity 1, *From the Prior to the Posterior*](https://agmath.github.io/IntroductoryBayesInContext/act1_bio_chytrid_v2.html)
+ii) [Activity 2, *Bayesian Boundaries: Investigating Credible Intervals*](https://agmath.github.io/IntroductoryBayesInContext/act2_bio_chytrid_v2.html)
+iii) Activity 3, *Bayesian Data Analysis: Testing Hypotheses* (coming Spring 2025)
+iv) Activity 4, *Hierarchical Models* (Coming in 2025)
+
+## Criminal Justice (Coming in 2025)
+
+Collaborative work with faculty members from the Criminal Justice department at Southern New Hampshire University is planned to begin during Spring 2025. The goal is to develop versions of these activities which will be utilized in the early weeks of a research methods course, introducing these students to Bayesian methodologies.
+
+## Environmental Science (Coming Spring 2026)
+
+We are scheduled to begin working with Erhen Mohler, of James Madison University, in 2025 to build out versions of the *Introductory Bayes in Context* activities in an Environmental Science context. In particular, we are excited to collaborate on the hierarchical modeling activity together. 
+
+Check back here for updates!
+
+## Future Development
+
+Do you have a course or context in mind for a new set of the *Introductory Bayes in Context* activities? Reach out to Adam [a.gilbert1@snhu.edu](mailto:a.gilbert1@snhu.edu) and/or [Laura] (mailto:laycocla@jmu.edu) to discuss beginning development of the activities in your context. Alternatively, you are welcome to fork the [GitHub Repo](https://github.com/agmath/IntroductoryBayesInContext) and develop them on your own -- we'd love to know if you do this though!
+
+:::
+
+## Funding 
+
+The BATS program is supported by the [NSF IUSE: EHR program](https://www.nsf.gov/pubs/2021/nsf21579/nsf21579.htm) with award numbers 2215879, 2215920, and 2215709
+
+

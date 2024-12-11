@@ -15,6 +15,14 @@ This is a homepage for *Introductory Bayes in Context*, a project to bring found
 
 ## About
 
+Watch the overview video below, or continue reading to learn more. Don’t forget to explore the tabbed content to discover current activities and get a preview of the contexts we’re planning to develop soon.
+
+<center>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3-1gnfEkUXA?si=dXQlrdrmjJ8mw-Rg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+</center>
+
 The goal of *Introductory Bayes in Context* is to provide discipline-specific activities covering foundational Bayesian topics. The topics covered by this activity series include 
 
 i) the notion of (and relationship between) the *prior* and *posterior*
@@ -70,7 +78,7 @@ Check back here for updates!
 
 ## Future Development
 
-Do you have a course or context in mind for a new set of the *Introductory Bayes in Context* activities? Reach out to Adam [a.gilbert1@snhu.edu](mailto:a.gilbert1@snhu.edu) and/or [Laura] (mailto:laycocla@jmu.edu) to discuss beginning development of the activities in your context. Alternatively, you are welcome to fork the [GitHub Repo](https://github.com/agmath/IntroductoryBayesInContext) and develop them on your own -- we'd love to know if you do this though!
+Do you have a course or context in mind for a new set of the *Introductory Bayes in Context* activities? Reach out to Adam ([a.gilbert1@snhu.edu](mailto:a.gilbert1@snhu.edu)) and/or Laura ([laycocla@jmu.edu](mailto:laycocla@jmu.edu)) to discuss beginning development of the activities in your context. Alternatively, you are welcome to fork the [GitHub Repo](https://github.com/agmath/IntroductoryBayesInContext) and develop them on your own -- we'd love to know if you do this though!
 
 :::
 

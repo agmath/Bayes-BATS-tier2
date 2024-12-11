@@ -30,7 +30,7 @@ ii) extracting and interpreting *credible intervals* from a posterior distributi
 iii) Bayesian approaches to hypothesis tests comparing two populations 
 iv) Hierarchical models (*coming summer 2025*)
 
-We've developed a basic framework for these activities and are actively developing the activities in several discipline-specific contexts. See the `Context-Free` tab below for links to the activity framework. Additionally, see the discipline-specific tabs for versions of the activities developed in those contexts. This page will continue to update as new contexts are added. The activities are free to utilize and are licensed as `CC-BY-SA`. If you are interested in working with us to develop versions of these activities in your own context, check out the `Future Development` tab.
+We've developed a basic framework for these activities and are actively building versions of them in several discipline-specific contexts. See the `Context-Free` tab below for links to the activity framework. Additionally, see the discipline-specific tabs for versions of the activities developed in contexts from those disciplines. We will continue to update this page as new contexts are added. If you are interested in working with us to develop versions of these activities in your own context, check out the `Future Development` tab.
 
 :::{.panel-tabset}
 

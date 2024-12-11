@@ -2,7 +2,6 @@
 title: "From the Prior to the Posterior (Context-Free)"
 format: html
 theme: flatly
-draft: true
 toc: true
 date: "09/13/2024"
 date-modified: today
@@ -35,10 +34,14 @@ theme_set(theme_bw(base_size = 14))
 
 :::{.callout-note}
 ## Context-Free Activity
-This activity is a *context-free scaffold*. You'll almost surely find it to be incomplete, and that's on purpose! We are designing this series of activities to have a *domain-specific* context laid over them. Throughout the activity, you'll see purple text, which is text that should be replaced with context-specific content. A [rough draft completed activity is available here](https://agmath.github.io/Bayes-BATS-tier2/act1_bio_chytrid.html).
+This activity is a *context-free scaffold*. You'll almost surely find it to be incomplete, and that's on purpose! We are designing this series of activities to have a *domain-specific* context laid over them. Throughout the activity, you'll see purple text, which is text that should be replaced with context-specific content. A [rough draft completed activity is available here](https://agmath.github.io/IntroductoryBayesInContext/act1_bio_chytrid_v2.html).
 :::
 
+:::::{.panel-tabset}
+
 ## Goals and Objectives
+
+### Goals and Objectives
 
 **Statistics Goals:** The statistics-focused goals of this activity are as follows:
 
@@ -61,11 +64,13 @@ This activity is a *context-free scaffold*. You'll almost surely find it to be i
 
 <font color="purple">**Subject-Area Objectives:** This section will be utilized to identify objectives/outcomes specific to the course/subject to which the activity context is linked. This allows adopters to cover objectives associated with their course while embedding Bayesian thinking.</font>
 
-## Background Information
+## Pre-Reading
+
+### Background Information
 
 The following subsections outline the background information for this activity from both a statistics and domain-specific lens. 
 
-### Data Analysis and Bayesian Thinking
+#### Data Analysis and Bayesian Thinking
 
 There are many statistical tools which can be used to investigate population parameters. Broadly speaking, these tools fall into three categories:
 
@@ -79,23 +84,17 @@ In *Bayesian inference*, we approach our tasks with some prior belief about the 
 
 In this interactive notebook, you'll see the foundations of the Bayesian approach to inference on a [choose the parameter relevant to the context: (population proportion / population mean)] in action. You'll explore how your prior belief (controlled via your choice of *prior distribution*) and the strength of your observed data work together to produce updated beliefs.
 
-### About the Context
+#### About the Context
 
 <font color="purple">This subsection includes background on the domain-specific context for the activity.</font>
 
-### Purpose
+#### Purpose
 
 Let's try to estimate the <font color="purple">[population parameter in context]</font>.
 
-## Prior Assumptions
+#### Prior Assumptions
 
-A paragraph indicating the assumptions we might come with if we had no prior expectations about our parameter. The end result here should be that we land on a *uniform* prior. The code chunk below sets up an uninformative *uniform prior* for [the population proportion being estimated].
-
-:::{.callout-caution}
-## Internal Question (Delete Once Resolved)
-
-Is it necessary that we begin from a uniform prior? I think, for illustration purposes, it is helpful.
-:::
+<font color="purple">A paragraph indicating the assumptions we might come with if we had no prior expectations about our parameter. The end result here should be that we land on a *uniform* prior. The code chunk below sets up an uninformative *uniform prior* for [the population proportion being estimated].</font> (**Note:** The code to generate the distribution is shown below because you'll have opportunities to make small updates to it in the activity on the next tab.)
 
 ```{r}
 alpha <- 1
@@ -130,7 +129,54 @@ my_dists_prop %>%
 The Beta-distribution we use here is commonly used with binomial data. It is determined by two shape parameters `alpha` ($\alpha$) and `beta` ($\beta$). We can think of $\alpha$ as the number of previously observed successes and $\beta$ as the number of previously observed failures. Choosing $\alpha = 1$ and $\beta = 1$, results in a prior that allows for both successes and failures ($\pi \neq 0$ and $\pi \neq 1$) but which has no other certainty about the true value of $\pi$.
 :::
 
-## Observed Data
+<font color="purple">Notice that the prior assumption we’ve made above (via the purple distribution) is that all proportions for the population parameter are equally plausible. In the interactive activity on the next tab, we’ll explore how newly observed data updates that prior assumption to obtain a more informed posterior understanding of the population proportion.</font>
+
+## Activity
+
+We'll start with a reminder of where our pre-reading left off.
+
+### Purpose
+
+We are trying estimate the <font color="purple">[population parameter in context]</font>.
+
+### Prior Assumptions
+
+<font color="purple">A paragraph indicating the assumptions we might come with if we had no prior expectations about our parameter. The end result here should be that we land on a *uniform* prior. The code chunk below sets up an uninformative *uniform prior* for [the population proportion being estimated].</font>
+
+```{r}
+alpha <- 1
+beta <- 1
+#Fewer points results in more jagged pictures
+grid_pts <- 500
+
+#Create prior distribution 
+my_dists_prop <- tibble(
+  pi = seq(0, 1, length.out = grid_pts), #possible proportion values
+  prior_prob = dbeta(pi, alpha, beta) #prior probability
+)
+
+#Plot prior distribution
+my_dists_prop %>%
+  ggplot() + 
+  geom_area(aes(x = pi, y = prior_prob), 
+            fill = "purple", alpha = 0.4) + 
+  geom_line(aes(x = pi, y = prior_prob),
+            linetype = "dashed") + 
+  labs(
+    title = "Prior Distribution",
+    x = "π",
+    y = ""
+  ) + 
+  ylim(c(-0.2, 3))
+```
+
+:::{.callout-note}
+## Shape of Prior
+
+The Beta-distribution we use here is commonly used with binomial data. It is determined by two shape parameters `alpha` ($\alpha$) and `beta` ($\beta$). We can think of $\alpha$ as the number of previously observed successes and $\beta$ as the number of previously observed failures. Choosing $\alpha = 1$ and $\beta = 1$, results in a prior that allows for both successes and failures ($\pi \neq 0$ and $\pi \neq 1$) but which has no other certainty about the true value of $\pi$.
+:::
+
+### Observed Data
 
 <font color="purple">In this section, we either generate, read, or collect data which we'll use to update our chosen prior distribution. The code chunk below is a placeholder which simulates new observed data from our population. As mentioned, there are several options for how this section on *Observed Data* can be treated.
 
@@ -160,7 +206,7 @@ print(paste0("Of the ",
              "."))
 ```
 
-## Obtaining the Posterior
+### Obtaining the Posterior
 
 Now we'll use our data to update the *prior* distribution and obtain the *posterior* distribution for our population proportion. We obtain the posterior distribution by multiplying the prior by the *likelihood* function and then dividing by a normalizing factor to ensure that the result is a probability density (that is, the total probability is 1). The likelihood measures the probability of observing our data at each possible value of the population proportion. 
 
@@ -201,7 +247,7 @@ my_dists_prop %>%
 
 Notice that, after seeing the data, our *posterior* estimate for the proportion of <font color="purple">[insert context here]</font> has been updated. <font color="purple">[We'll summarize what we are seeing here, or even better...ask the students to do that via a question in this location.]</font>
 
-## Investigating Further
+### Investigating Further
 
 Now that you've seen one Bayesian analysis to estimate <font color="purple">[insert population parameter here]</font>, let's reproduce the analysis and explore the impact of (i) choice of prior, (ii) strength of data, and (iii) the combination of data and prior on the resulting posterior.
 
@@ -333,6 +379,8 @@ In this section, you'll have an opportunity to reproduce our original analysis u
 <font color="purple">This box will provide students with an update, providing them with a description or location of newly collected data. The new data source should have many more observations than the original data source. For example, the original data source could just have been a small random sample from an existing, larger data source.</font>
 :::
 
+<!-- I think we resolved the question below...
+
 :::{.callout-caution}
 ## A Question about Activity Design
 
@@ -350,6 +398,8 @@ Possible paths forward:
   
 Laura's response:  I would err on the side of good practice, even if it complicates things.  Alternatively, what if we had a side-by-side: update with little data, update with lots of data - see difference?  Or would that be massively confusing?
 :::
+
+-->
 
 <font color="purple">The code chunk below is set to create a weakly informative prior that assumes the additional information we received from the previous scenario, but from a small sample. For now we set a prior from 10 observations with 6 positive results, for illustration purposes.</font>
 
@@ -461,3 +511,5 @@ What conclusions can you draw about whether the *prior* or the observed data has
 :::
 
 ::::
+
+:::::

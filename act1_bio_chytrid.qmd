@@ -40,8 +40,11 @@ theme_set(theme_bw(base_size = 14))
 This activity is a sample of our first activity (*From the Prior to the Posterior*) with a biology context laid over the framework. This sample has been constructed with coauthor Dr. Katie Duryea, a member of the Biology faculty at Southern New Hampshire University. This sample activity provides an example of what versions of this activity from other domains/contexts may look like.
 :::
 
+::::{.panel-tabset}
 
 ## Goals and Objectives
+
+### Goals and Objectives
 
 **Goals:** The goals of this activity are as follows:
 
@@ -64,11 +67,13 @@ This activity is a sample of our first activity (*From the Prior to the Posterio
 
 **Biology Objectives:** <font color="purple">I'll work with Katie to add drafts of these objectives.</font>
 
-## Background Information
+## Pre-Reading
+
+### Background Information
 
 The following subsections outline the background information for this activity from both a statistics and domain-specific lens.
 
-### Data Analysis and Bayesian Thinking
+#### Data Analysis and Bayesian Thinking
 
 There are many statistical tools which can be used to test hypotheses about population parameters. Broadly speaking, these tools fall into three categories:
 
@@ -76,15 +81,15 @@ There are many statistical tools which can be used to test hypotheses about popu
 + Simulation-based methods
 + Bayesian methods
 
-Perhaps you've encountered frequentist methods previously. These methods depend on distribution assumptions and the Central Limit Theorem. In this notebook, we'll introduce Bayesian methods. In particular, you'll explore how your prior belief (controlled via your choice of *prior distribution*) and the strength of your observed data work together to produce updated beliefs (a *posterior distribution*).
+Perhaps you've encountered Frequentist methods previously. These methods depend on distribution assumptions and the Central Limit Theorem (for example, "my data is approximately normally distributed"). In this notebook, we'll introduce Bayesian methods. In particular, you'll explore how your prior belief (controlled via your choice of *prior distribution*) and the strength of your observed data work together to produce updated beliefs (a *posterior distribution*).
 
-In *Bayesian inference*, we approach our tasks with some prior belief about the value of our population parameter. This is natural, because it matches our lived experience as humans. We use that prior belief, in conjunction with our data, to produce an updated version of our beliefs. Again, likely matching our individual approaches to interacting with the world we live in.
+In *Bayesian inference*, we approach our tasks with some prior belief about the value of our population parameter. This is natural, because it matches our lived experience as humans. We use that prior belief, in conjunction with our data, to produce an updated version of our beliefs. Again, likely matching our individual approaches to interacting with the world we live in and following what you might refer to as *the scientific method*.
 
-In this interactive notebook, you'll see the foundations of the Bayesian approach to inference on a [choose the parameter relevant to the context: (population proportion / population mean)] in action. You'll explore how your prior belief (controlled via your choice of *prior distribution*) and the strength of your observed data work together to produce updated beliefs.
+In this interactive notebook, you'll see the foundations of the Bayesian approach to inference on a population proportion -- the proportion of frogs in New Hampshire which have Chytrid Fungal ingections -- in action. You'll explore how your prior belief (controlled via your choice of *prior distribution*) and the strength of your observed data work together to produce updated beliefs.
 
-### About Chytrid
+#### About Chytrid
 
-Chytrid fungus is an infectious fungal disease that can be fatal to amphibians and has caused some species to become extinct. Check out this video from Chris Egnoto to learn more about this threat to amphibian life.
+Chytrid Fungus is an infectious fungal disease that can be fatal to amphibians and has caused some species to become extinct. Check out this video from Chris Egnoto to learn more about this threat to amphibian life.
 
 <center>
 
@@ -92,13 +97,13 @@ Chytrid fungus is an infectious fungal disease that can be fatal to amphibians a
 
 </center>
 
-### Purpose
+#### Purpose
 
-Let's try to estimate the proportion of frogs in southern New Hampshire which are impacted by chytrid fungus.
+Let's try to estimate the proportion of frogs in southern New Hampshire which are impacted by Chytrid Fungus.
 
-## Prior Assumptions
+#### Prior Assumptions
 
-Perhaps today is our first time learning about chytrid fungus and frogs. We may have no expectation about what our population proportion ($\pi$) might be. In the Frequentist approach, we would let the data completely determine the inference we make about the proportion. In Bayesian inference, we take a different approach and assign a prior distribution over the population proportion we are looking for. Since today is the first we've heard of Chytrid, let's set up a prior that indicates nearly all values of $\pi$ are equally likely.
+Perhaps today is our first time learning about Chytrid Fungus and frogs. We may have no expectation about what our population proportion ($\pi$) might be. In the Frequentist approach, we would let the data completely determine the inference we make about the proportion. In Bayesian inference we take a different approach, assigning a prior distribution over the population proportion we are looking for. Since today is the first we've heard of Chytrid Fungus, let's set up a prior that indicates nearly all values of $\pi$ are equally likely. (**Note:** The code to generate the distribution is shown below because you'll have opportunities to make small updates to it in the activity on the next tab.)
 
 ```{r}
 alpha <- 1
@@ -133,7 +138,54 @@ my_dists %>%
 The Beta-distribution we use here is commonly used with binomial data. It is determined by two shape parameters `alpha` ($\alpha$) and `beta` ($\beta$). We can think of $\alpha$ as the number of previously observed successes and $\beta$ as the number of previously observed failures. Choosing $\alpha = 1$ and $\beta = 1$, results in a prior that allows for both successes and failures ($\pi \neq 0$ and $\pi \neq 1$) but which has no other certainty about the true value of $\pi$.
 :::
 
-## Observed Data
+Notice that the prior assumption we've made above (via the purple distribution) is that all proportions for Chytrid Fungus infected frogs are equally plausible. In the interactive activity on the next tab, we'll explore how newly observed data updates that *prior* assumption to obtain a more informed *posterior* understanding of the proportion of frogs in New Hampshire infected by Chytrid Fungus. 
+
+## Activity
+
+We'll start with a reminder of where our pre-reading left off.
+
+### Purpose
+
+We are attempting to estimate the proportion of frogs in southern New Hampshire which are impacted by Chytrid Fungus.
+
+### Prior Assumptions
+
+Perhaps this activity is our first time learning about Chytrid Fungus and frogs. In this case, we would have no expectation about what our population proportion ($\pi$) might be. In the Frequentist approach to parameter estimation, we would let the data completely determine the inference we make about the proportion. In Bayesian inference, we take a different approach and assign a prior distribution over the population proportion we are looking for. Assuming that this activity is the first time we've heard of Chytrid, we've set up a prior that indicates nearly all values of $\pi$ are equally likely.
+
+```{r}
+alpha <- 1
+beta <- 1
+#Fewer points results in more jagged pictures
+grid_pts <- 500
+
+#Create prior distribution 
+my_dists <- tibble(
+  pi = seq(0, 1, length.out = grid_pts), #possible proportion values
+  prior_prob = dbeta(pi, alpha, beta) #prior probability
+)
+
+#Plot prior distribution
+my_dists %>%
+  ggplot() + 
+  geom_area(aes(x = pi, y = prior_prob), 
+            fill = "purple", alpha = 0.4) + 
+  geom_line(aes(x = pi, y = prior_prob),
+            linetype = "dashed") + 
+  labs(
+    title = "Prior Distribution",
+    x = "π",
+    y = ""
+  ) + 
+  ylim(c(-0.2, 3))
+```
+
+:::{.callout-note}
+## Shape of Prior
+
+The Beta-distribution we use here is commonly used with binomial data. It is determined by two shape parameters `alpha` ($\alpha$) and `beta` ($\beta$). We can think of $\alpha$ as the number of previously observed successes and $\beta$ as the number of previously observed failures. Choosing $\alpha = 1$ and $\beta = 1$, results in a prior that allows for both successes and failures ($\pi \neq 0$ and $\pi \neq 1$) but which has no other certainty about the true value of $\pi$.
+:::
+
+### Observed Data
 
 In the actual activity, we'll read in real data below. For now, let's generate some fake data.
 
@@ -153,11 +205,11 @@ num_pos <- my_data %>%
   nrow()
 
 print(paste0("Of the ", num_frogs, 
-             " frogs observed, the number positive for Chytrid fungus was ", 
+             " frogs observed, the number positive for Chytrid Fungus was ", 
              num_pos, "."))
 ```
 
-## Obtaining the Posterior
+### Obtaining the Posterior
 
 Now we'll use our data to update the *prior* distribution and obtain the *posterior* distribution for our population proportion. We obtain the posterior distribution by multiplying the prior by the *likelihood* function and then dividing by a normalizing factor to ensure that the result is a probability density (that is, the total probability is 1). The likelihood measures the probability of observing our data at each possible value of the population proportion. 
 
@@ -196,7 +248,7 @@ my_dists %>%
 
 Notice that, after seeing the data, our *posterior* estimate for the proportion of frogs impacted by Chytrid has been updated. It looks very unlikely that $\pi$ is less than 0.25 (those population proportions seem incompatible with our observed data), and the most likely proportions are between 0.5 and 0.8.
 
-## Investigating Further
+### Investigating Further
 
 Now that you've seen one Bayesian analysis to estimate the proportion of frogs impacted by Chytrid, let's reproduce the analysis and explore the impact of (i) choice of prior, (ii) strength of data, and (iii) the combination of data and prior.
 
@@ -268,7 +320,7 @@ num_pos <- my_data %>%
   nrow()
 
 print(paste0("Of the ", num_frogs, 
-             " frogs observed, the number positive for Chytrid fungus was ", 
+             " frogs observed, the number positive for Chytrid Fungus was ", 
              num_pos, "."))
 ```
 
@@ -320,7 +372,7 @@ In this section you'll have an opportunity to reproduce the analysis above, but 
 [This is a placeholder for now...] Dr. Duryea's students have finished processing their most recent collection of samples. She has provided us with a larger collection of observed data. Let's see the impact that this larger data set has on updating the prior distribution.
 :::
 
-The code chunk below is set to create a weakly informative prior that assumes a population proportion of chytrid fungus infection of 60%, backed by a total of 10 observations. Run the code to construct and visualize this prior.
+The code chunk below is set to create a weakly informative prior that assumes a population proportion of Chytrid Fungus infection of 60%, backed by a total of 10 observations. Run the code to construct and visualize this prior.
 
 ```{webr-r}
 ##number of prior observed successes
@@ -370,7 +422,7 @@ num_pos <- my_data %>%
   nrow()
 
 print(paste0("Of the ", num_frogs, 
-             " frogs observed, the number positive for Chytrid fungus was ", 
+             " frogs observed, the number positive for Chytrid Fungus was ", 
              num_pos, "."))
 ```
 
@@ -423,3 +475,4 @@ What conclusions can you draw about whether the *prior* or the observed data has
 
 :::
 
+::::

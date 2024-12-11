@@ -2,7 +2,6 @@
 title: "Bayesian Boundaries: Investigating Credible Intervals (Context-Free)"
 format: html
 theme: flatly
-draft: true
 toc: true
 date: "09/13/2024"
 date-modified: today
@@ -46,10 +45,14 @@ new_pos <- 102
 
 :::{.callout-note}
 ## Context-Free Activity
-This activity is a *context-free scaffold*. You'll almost surely find it to be incomplete, and that's on purpose! We are designing this series of activities to have a *domain-specific* context laid over them. Throughout the activity, you'll see purple text, which is text that should be replaced with context-specific content. A rough draft completed activity is [available here, in the chytrid fungus context](https://agmath.github.io/Bayes-BATS-tier2/act2_bio_chytrid.html).
+This activity is a *context-free scaffold*. You'll almost surely find it to be incomplete, and that's on purpose! We are designing this series of activities to have a *domain-specific* context laid over them. Throughout the activity, you'll see purple text, which is text that should be replaced with context-specific content. A rough draft completed activity is [available here, in the chytrid fungus context](https://agmath.github.io/Bayes-BATS-tier2/act2_bio_chytrid_v2.html).
 :::
 
+::::{.panel-tabset}
+
 ## Goals and Objectives
+
+### Goals and Objectives
 
 **Statistics Goals:** The statistics-focused goals of this activity are as follows:
 
@@ -70,13 +73,15 @@ This activity is a *context-free scaffold*. You'll almost surely find it to be i
 
 <font color="purple">**Subject-Specific Objectives:** This section is where course-specific objectives relevant to the activity’s context can be detailed. This allows instructors to meet objectives specific to their discipline while incorporating Bayesian thinking.</font>
 
-## Background Information
+## Pre-Reading
+
+### Background Information
 
 The following sections provide the statistical and contextual background for this activity.
 
-### Data Analysis and Bayesian Thinking
+#### Data Analysis and Bayesian Thinking
 
-There are many statistical tools which can be used to investigate population parameters. As we mentioned in [our first activity](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1.html), these tools fall into three broad categories:
+There are many statistical tools which can be used to investigate population parameters. As we mentioned in [our first activity](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1_v2.html), these tools fall into three broad categories:
 
 + Classical/Frequentist methods 
 + Simulation-based methods
@@ -84,21 +89,37 @@ There are many statistical tools which can be used to investigate population par
 
 This series of activities focuses on Bayesian methods. In this second activity, we engage in extracting and interpreting a *credible interval* from a *posterior* distribution. We’ll briefly review how to obtain the *posterior* distribution from the *prior* and observed data, but check back on [our first activity](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1.html) for full details.
 
-### About the Context
+#### About the Context
 
 <font color="purple">This subsection includes background on the domain-specific context for the activity.</font>
 
-### Purpose
+#### Purpose
 
 Building on concepts from the first activity, we'll continue to estimate the <font color="purple">[relevant population parameter]</font> by extracting and interpreting a *credible interval* from the *posterior distribution*.
 
-## Reminder About Prior and Posterior Distributions
+### Reminder About Prior and Posterior Distributions
 
 In Bayesian inference, a *prior distribution* represents initial beliefs about a population parameter. This allows for prior knowledge or experiences (and uncertainties) to inform conclusions without solely relying on new data. The *posterior distribution* is then obtained by updating the *prior* with observed data by using a version of Bayes' Rule:
 
 $$\mathbb{P}\left[\text{parameter value} \mid \text{data}\right] = \frac{\mathbb{P}\left[\text{data} \mid \text{parameter value}\right]\cdot \mathbb{P}\left[\text{parameter value}\right]}{\mathbb{P}\left[\text{data}\right]}$$
 
-In [Activity 1](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1.html), we manually updated the prior, applying this relationship step-by-step via code, which provided transparency into the Bayesian updating process.
+In [Activity 1](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1_v2.html), we manually updated the prior, applying this relationship step-by-step via code, which provided transparency into the Bayesian updating process.
+
+## Activity
+
+We'll start with a reminder of where our pre-reading left off before moving on to learn about convenient functionality, how that functionality can help us obtain *credible intervals*, and how we can interpret and draw insights from those intervals.
+
+### Purpose
+
+Building on concepts from the first activity, we'll continue to estimate the <font color="purple">[relevant population parameter]</font> by extracting and interpreting a *credible interval* from the *posterior distribution*.
+
+### Reminder About Prior and Posterior Distributions
+
+In Bayesian inference, a *prior distribution* represents initial beliefs about a population parameter. This allows for prior knowledge or experiences (and uncertainties) to inform conclusions without solely relying on new data. The *posterior distribution* is then obtained by updating the *prior* with observed data by using a version of Bayes' Rule:
+
+$$\mathbb{P}\left[\text{parameter value} \mid \text{data}\right] = \frac{\mathbb{P}\left[\text{data} \mid \text{parameter value}\right]\cdot \mathbb{P}\left[\text{parameter value}\right]}{\mathbb{P}\left[\text{data}\right]}$$
+
+In [Activity 1](https://agmath.github.io/Bayes-BATS-tier2/ContextFreeActivity1_v2.html), we manually updated the prior, applying this relationship step-by-step via code, which provided transparency into the Bayesian updating process.
 
 ### Convenient Functionality from `{bayesrules}`
 
@@ -165,7 +186,7 @@ summarize_beta_binomial(alpha = 6, beta = 4, y = 8, n = 12) %>%
 
 From the output above, we can see that the *prior*, the scaled likelihood, and the *posterior* are all distinct. The *prior* and the *likelihood* of our observed data act together to arrive at the *posterior* distribution. Again, the use of `plot_beta_binomial()` simplifies our job by performing the Bayesian update behind the scenes.
 
-While we are transitioning to the more "black box" functionality in this activity (and you'll continue with similar functionality in the remaining activities too), the foundation you built in engaging with the first activity should give you some intuition about what functions like `plot_beta_binomial()` and `summarize_beta_binomial()` are doing when they are run. 
+While we are transitioning to the more "black box" functionality in this activity (and you'll continue with similar functionality in the remaining activities, too), the foundation you built in engaging with the first activity should give you some intuition around what functions like `plot_beta_binomial()` and `summarize_beta_binomial()` are doing when they are run. 
 
 :::{.callout-caution}
 ## Discussion Question
@@ -173,7 +194,7 @@ While we are transitioning to the more "black box" functionality in this activit
 Take this opportunity to discuss what is happening "behind the scenes" when the `plot_beta_binomial()` function is run.
 :::
 
-## Parameter Estimation with Intervals
+### Parameter Estimation with Intervals
 
 Through the main section of this activity, you'll explore the use of *credible intervals* (CIs), the Bayesian analog to the Frequentist's *confidence interval*. A key advantage of credible intervals is that they offer a much more intuitive interpretation. For example, with a 95% credible interval, we claim there is a 95% probability that the population parameter lies within the interval bounds.
 
@@ -232,7 +253,7 @@ ii) Numerically, what insights can we draw from the summary statistics we've obt
 
 Notice that this new data updates our prior beliefs about our population parameter. The posterior distribution now represents our updated "world-view" after seeing new evidence.
 
-### Credible Intervals
+#### Credible Intervals
 
 If you’ve taken a traditional (Frequentist) statistics course, you might be familiar with *confidence intervals*. These intervals aim to capture a population parameter with a prescribed level of certainty. In practice, however, interpreting these intervals can be tricky. Confidence intervals are based on a hypothetical scenario in which we take many random samples and build intervals from each; the expectation is that, over many intervals, a certain proportion (like 95% for a 95% confidence interval) would contain the true parameter.
 
@@ -288,7 +309,7 @@ i) Compare your 90% and 95% credible intervals. Why does the 95% credible interv
 ii) What do we gain by using a wider interval? Are there practical contexts in which you might prefer a narrower (e.g., 90%) credible interval over a wider one, or vice versa?
 :::
 
-## Summary
+### Summary
 
 In this notebook we,
 
@@ -306,6 +327,8 @@ i) **Your current coursework:** How might credible intervals support your analys
 ii) **Personal interests:** Are there topics or hobbies where interval estimates could clarify uncertainty?
 iii) **Professional projects:** Think about how credible intervals might apply in work settings where you estimate uncertain quantities.
 :::
+
+::::
 
 ## References
 

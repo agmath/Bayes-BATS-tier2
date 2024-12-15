@@ -394,7 +394,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"# We'll update with Katie's actual data from GitHub when it is available\nnew_obs <- 157\nset.seed(072324)\nmy_data <- tibble(\n  obs_number = 1:new_obs,\n  status = sample(c(\"yes\", \"no\"), \n                  size = new_obs,\n                  prob = c(0.7, 0.3), \n                  replace = TRUE)\n)\n\nnew_pos <- my_data %>%\n  filter(status == \"yes\") %>%\n  nrow()\n\nprint(paste0(\"Of the \", new_obs, \n             \" observations, there were \", \n             new_pos, \" positive responses.\"))","options":{"out-height":"","warning":"true","read-only":"false","message":"true","context":"interactive","editor-max-height":"","results":"markup","dpi":72,"fig-width":7,"comment":"","fig-cap":"","label":"unnamed-chunk-1","output":"true","classes":"","autorun":"false","editor-word-wrap":"true","fig-height":5,"editor-font-scale":"1","out-width":"700px","editor-quick-suggestions":"false"},"id":1},{"code":"","options":{"out-height":"","warning":"true","read-only":"false","message":"true","context":"interactive","editor-max-height":"","results":"markup","dpi":72,"fig-width":7,"comment":"","fig-cap":"","label":"unnamed-chunk-2","output":"true","classes":"","autorun":"false","editor-word-wrap":"true","fig-height":5,"editor-font-scale":"1","out-width":"700px","editor-quick-suggestions":"false"},"id":2},{"code":"","options":{"out-height":"","warning":"true","read-only":"false","message":"true","context":"interactive","editor-max-height":"","results":"markup","dpi":72,"fig-width":7,"comment":"","fig-cap":"","label":"unnamed-chunk-3","output":"true","classes":"","autorun":"false","editor-word-wrap":"true","fig-height":5,"editor-font-scale":"1","out-width":"700px","editor-quick-suggestions":"false"},"id":3},{"code":"","options":{"out-height":"","warning":"true","read-only":"false","message":"true","context":"interactive","editor-max-height":"","results":"markup","dpi":72,"fig-width":7,"comment":"","fig-cap":"","label":"unnamed-chunk-4","output":"true","classes":"","autorun":"false","editor-word-wrap":"true","fig-height":5,"editor-font-scale":"1","out-width":"700px","editor-quick-suggestions":"false"},"id":4}];
+globalThis.qwebrCellDetails = [{"id":1,"code":"source(\"https://raw.githubusercontent.com/agmath/Bayes-BATS-tier2/refs/heads/main/bayesrulesfunctions.R\")\n\nprint(\"I've made plot_beta_binomial() and summarise_beta_binomial() available to you!\")","options":{"output":"true","fig-width":7,"fig-cap":"","comment":"","results":"markup","message":"true","out-height":"","editor-max-height":"","read-only":"false","dpi":72,"classes":"","editor-font-scale":"1","warning":"true","context":"interactive","editor-word-wrap":"true","autorun":"false","fig-height":5,"label":"unnamed-chunk-1","editor-quick-suggestions":"false","out-width":"700px"}},{"id":2,"code":"# We'll update with Katie's actual data from GitHub when it is available\nnew_obs <- 157\nset.seed(072324)\nmy_data <- tibble(\n  obs_number = 1:new_obs,\n  status = sample(c(\"yes\", \"no\"), \n                  size = new_obs,\n                  prob = c(0.7, 0.3), \n                  replace = TRUE)\n)\n\nnew_pos <- my_data %>%\n  filter(status == \"yes\") %>%\n  nrow()\n\nprint(paste0(\"Of the \", new_obs, \n             \" observations, there were \", \n             new_pos, \" positive responses.\"))","options":{"output":"true","fig-width":7,"fig-cap":"","comment":"","results":"markup","message":"true","out-height":"","editor-max-height":"","read-only":"false","dpi":72,"classes":"","editor-font-scale":"1","warning":"true","context":"interactive","editor-word-wrap":"true","autorun":"false","fig-height":5,"label":"unnamed-chunk-2","editor-quick-suggestions":"false","out-width":"700px"}},{"id":3,"code":"","options":{"output":"true","fig-width":7,"fig-cap":"","comment":"","results":"markup","message":"true","out-height":"","editor-max-height":"","read-only":"false","dpi":72,"classes":"","editor-font-scale":"1","warning":"true","context":"interactive","editor-word-wrap":"true","autorun":"false","fig-height":5,"label":"unnamed-chunk-3","editor-quick-suggestions":"false","out-width":"700px"}},{"id":4,"code":"","options":{"output":"true","fig-width":7,"fig-cap":"","comment":"","results":"markup","message":"true","out-height":"","editor-max-height":"","read-only":"false","dpi":72,"classes":"","editor-font-scale":"1","warning":"true","context":"interactive","editor-word-wrap":"true","autorun":"false","fig-height":5,"label":"unnamed-chunk-4","editor-quick-suggestions":"false","out-width":"700px"}},{"id":5,"code":"","options":{"output":"true","fig-width":7,"fig-cap":"","comment":"","results":"markup","message":"true","out-height":"","editor-max-height":"","read-only":"false","dpi":72,"classes":"","editor-font-scale":"1","warning":"true","context":"interactive","editor-word-wrap":"true","autorun":"false","fig-height":5,"label":"unnamed-chunk-5","editor-quick-suggestions":"false","out-width":"700px"}}];
 
 </script>
 <script type="module">
@@ -2028,7 +2028,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">December 10, 2024</p>
+      <p class="date-modified">December 15, 2024</p>
     </div>
   </div>
     
@@ -2127,6 +2127,21 @@ Sample Activity 1 (Biology Context)
 </section>
 <section id="convenient-functionality-from-bayesrules" class="level3">
 <h3 class="anchored" data-anchor-id="convenient-functionality-from-bayesrules">Convenient Functionality from <code>{bayesrules}</code></h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Temporary Workaround
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We’re having trouble with <code>{rstanarm}</code> in webR and <code>{rstanarm}</code> is a dependency of the <code>{bayesrules}</code> package. Since none of the functions utilized in this activity require <code>{rstanarm}</code>, I’ve saved an R Script with the functions we are using. Run the code cell below to “source” that script.</p>
+</div>
+</div>
+<div id="qwebr-insertion-location-1"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>In this activity, we’ll simplify the process of obtaining our <em>posterior</em> distributions by using functions from the <code>{bayesrules}</code> package. <em>Bayes Rules! An Introduction to Bayesian Modeling</em>, by Johnson, Ott, and Dogucu <span class="citation" data-cites="bayesrulesbook">(<a href="#ref-bayesrulesbook" role="doc-biblioref">Johnson, Ott, and Dogucu 2022</a>)</span> and the corresponding <code>{bayesrules}</code> R package <span class="citation" data-cites="bayesrulespkg">(<a href="#ref-bayesrulespkg" role="doc-biblioref">Dogucu, Johnson, and Ott 2021</a>)</span> provide user-friendly functionality that we’ll take advantage of.</p>
 <p>In our first activity, we began with an <em>uninformative prior</em>, represented as a beta distribution with one observed success and one failure, <code>beta(1, 1)</code>. We then updated that prior with our initially observed data including eight (8) successes out of twelve (12) observations. Using the <code>plot_beta_binomial()</code> and <code>summarize_beta_binomial()</code> functions from <code>{bayesrules}</code>, we can easily visualize and summarize the prior, likelihood, posterior, and associated statistics.</p>
 <p>To use <code>plot_beta_binomial()</code>, we need to specify four arguments:</p>
@@ -2265,10 +2280,10 @@ Discussion Question
 <h3 class="anchored" data-anchor-id="parameter-estimation-with-intervals">Parameter Estimation with Intervals</h3>
 <p>Through the main section of this activity, you’ll explore the use of <em>credible intervals</em> (CIs), the Bayesian analog to the Frequentist’s <em>confidence interval</em>. A key advantage of credible intervals is that they offer a much more intuitive interpretation. For example, with a 95% credible interval, we claim there is a 95% probability that the population parameter lies within the interval bounds.</p>
 <p>Before we get into CIs, let’s get ourselves back to where we were at the end of the last activity. As you might remember, we obtained data on a larger collection of 157 observed frogs, from which there were 102 testing positive for chytrid fungus. Run the code chunk below to read in that data.</p>
-<div id="qwebr-insertion-location-1"></div>
+<div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Use the <code>plot_beta_binomial()</code> and <code>summarize_beta_binomial()</code> functions in the code cell below to update your weakly informative <code>beta(6, 4)</code> prior with these 157 observations including 102 positive outcomes.</p>
-<div id="qwebr-insertion-location-2"></div>
+<div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2333,7 +2348,7 @@ Discussion Question
 </div>
 </div>
 <p>Now, use the updated data (the 102 chytrid-positive frogs from the 157 newly observed frogs) and your results from <code>summarize_beta_binomial()</code>, along with the <code>qbeta()</code> function to extract a new 90% credible interval for the population proportion of chytrid-positive frogs from your <em>posterior</em> distribution. Use <code>plot_beta_ci()</code> to plot the credible interval as well.</p>
-<div id="qwebr-insertion-location-3"></div>
+<div id="qwebr-insertion-location-4"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -2353,7 +2368,7 @@ Discussion Questions
 </div>
 </div>
 <p>Now calculate a 95% credible interval for the population proportion of chytrid-positive frogs in New Hampshire.</p>
-<div id="qwebr-insertion-location-4"></div>
+<div id="qwebr-insertion-location-5"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">

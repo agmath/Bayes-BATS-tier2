@@ -136,6 +136,17 @@ In [Activity 1](https://agmath.github.io/Bayes-BATS-tier2/act1_bio_chytrid.html)
 
 ### Convenient Functionality from `{bayesrules}`
 
+:::{.callout-important}
+## Temporary Workaround
+We're having trouble with `{rstanarm}` in webR and `{rstanarm}` is a dependency of the `{bayesrules}` package. Since none of the functions utilized in this activity require `{rstanarm}`, I've saved an R Script with the functions we are using. Run the code cell below to "source" that script.
+:::
+
+```{webr-r}
+source("https://raw.githubusercontent.com/agmath/Bayes-BATS-tier2/refs/heads/main/bayesrulesfunctions.R")
+
+print("I've made plot_beta_binomial() and summarise_beta_binomial() available to you!")
+```
+
 In this activity, we’ll simplify the process of obtaining our *posterior* distributions by using functions from the `{bayesrules}` package. *Bayes Rules! An Introduction to Bayesian Modeling*, by Johnson, Ott, and Dogucu [@bayesrulesbook] and the corresponding `{bayesrules}` R package [@bayesrulespkg] provide user-friendly functionality that we’ll take advantage of.
 
 In our first activity, we began with an *uninformative prior*, represented as a beta distribution with one observed success and one failure, `beta(1, 1)`. We then updated that prior with our initially observed data including eight (8) successes out of twelve (12) observations. Using the `plot_beta_binomial()` and `summarize_beta_binomial()` functions from `{bayesrules}`, we can easily visualize and summarize the prior, likelihood, posterior, and associated statistics.
